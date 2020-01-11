@@ -1,34 +1,36 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+body{
+    padding: 0;
+    margin: 0;
+}
+
+#start-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#start-page .container{
+    text-align: center;
+    background: lightgray ;
+    width: 80%;
+    padding: 2rem;
+}
+
+button{
+    padding: .5rem 1rem;
+    margin: .5rem 0;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    /* 6bbde7a0df13f894d507580ef109050b6b1d9a38 */
+}
 
 #nav-bar {
     background-color: rgb(226, 223, 223);
@@ -40,5 +42,5 @@
 }
 
 #logo {
-    height: 30px;
+    width: 7%;    
 }
