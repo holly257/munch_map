@@ -28,7 +28,6 @@ h1 {
 
 #start-page .container{
     text-align: center;
-    width: 90%;
     padding: 2rem;
 }
 
@@ -56,7 +55,7 @@ button{
 }
 
 #logo {
-    width: 10%;    
+    width: 30px;    
 }
 
 .hidden {
@@ -83,3 +82,30 @@ select {
     text-align: left;
 }
 
+@media (min-width: 600px) {
+    button {
+        font-size: 90%;
+    }
+
+    #intro{
+        font-size: 120%;
+    }
+
+    form {
+        font-size: 150%;
+    }
+
+    input {
+        height: 30px;
+        width: 200px;
+    }
+
+    select {
+        height: 30px;
+    }
+
+    h3 {
+        font-size: 200%;
+        margin-bottom: 60px;
+    }
+}
