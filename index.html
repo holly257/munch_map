@@ -15,15 +15,13 @@
         <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/flat-icons" title="Flat Icons">Flat Icons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
         <button id="new-search-button">New Search</button>
     </nav>
-
-    <!-- Von working on start page -->
-
+<!-- make nav bar hidden on page load -->
     
-    <div id="start-page">
+    <div id="start-page" >
         <div class="container">
             <div class="start-box">
                 <h1>Welcome to the food finder app!</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum vero harum non distinctio nostrum quaerat.</p>
+                <p id="intro">Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum vero harum non distinctio nostrum quaerat.</p>
                 <button>
                     <a href="#">How we built this?</a>
                 </button>
@@ -32,26 +30,27 @@
         </div>
     </div>
 
-
-    <!-- Holly working on form page -->
-
-    <div id="start-page">
+<!-- make this container hidden on page load -->
+    <div id="start-page" >
         <div class="container">
             <h3>Restaurant Search</h3>
-            <form action="">
-                <label for="search-city">State</label>
-                    <select name="search-state" id="js-search-state" required>
-                        
-                    </select>
-                <label for="search-city">City</label>
+            <form action="" id="search-form">
+                <label for="search-city">State: &nbsp</label>
+                    <select name="search-state" id="js-search-state" required></select>
+                    <br>
+                <label for="search-city">City: &nbsp</label>
                 <input type="text" placeholder="New York City" name="search-city" id="js-search-city" required>
-                <label for="search-category">Category</label>
-                <input type="text" placeholder="Italian, Indian, Chinese" name="search-category" id="js-search-category">
-                <label for="search-food">Food Type</label>
+
+                <br>
+                <label for="search-category">Category: &nbsp</label>
+                <input type="text" placeholder="Italian, India, Chinese" name="search-category" id="js-search-category">
+                <br>
+                <label for="search-food">Food Type: &nbsp</label>
+
                 <input type="text" placeholder="Pizza, Burger, pasta .." name="search-food" id="js-search-food">
                 <br>
                 <br>
-                <button>Get Restaurants!</button>
+                <button id="search-form">Get Restaurants!</button>
             </form>
 
             <p id="js-error-message" class="error-message"></p>
