@@ -39,16 +39,25 @@
         <div class="container">
             <h3>Restaurant Search</h3>
             <form action="">
-                <p>City:</p>
-                <input type="text">
-                <p>Category:</p>
-                <input type="text">
-                <p>Food Type:</p>
-                <input type="text">
+                <label for="search-city">State</label>
+                <input type="text" placeholder="New York" name="search-state" id="js-search-state" required>
+                <label for="search-city">City</label>
+                <input type="text" placeholder="New York City" name="search-city" id="js-search-city" required>
+                <label for="search-category">Category</label>
+                <input type="text" placeholder="Italian, India, Chinese" name="search-category" id="js-search-category">
+                <label for="search-food">Food Type</label>
+                <input type="text" placeholder="Pizza, Burger, pasta .." name="search-food" id="js-search-food">
                 <br>
                 <br>
                 <button>Get Restaurants!</button>
             </form>
+
+            <p id="js-error-message" class="error-message"></p>
+            <section id="results" class="hidden">
+              <h2>Search results</h2>
+              <ul id="results-list">
+              </ul>
+            </section>
         </div>
     </div>
 
