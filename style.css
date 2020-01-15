@@ -3,7 +3,7 @@
     padding: 0;
     margin: 0;
     font-family: sans-serif;
-    background-color: rgb(198, 235, 148)
+    background-color: rgb(205, 231, 170)
 }
 
 body{
@@ -36,12 +36,14 @@ button{
     padding: .5rem 1rem;
     margin: .5rem 0;
     background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 
 #new-search-button{
     padding: auto;
     margin: 0;
-    background-color: rgb(198, 235, 148)
+    background-color: rgb(205, 231, 170)
 }
 
 #nav-bar {
@@ -67,13 +69,17 @@ h3 {
 
 input {
     margin-top: 15px;
+    padding: 0 0 0 3px;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 
 select {
     background-color: white;
+    border: 1px solid black;
 }
 
-#search-form {
+#search-form{
     text-align: left;
-
 }
+
