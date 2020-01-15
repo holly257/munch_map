@@ -3,11 +3,20 @@
     padding: 0;
     margin: 0;
     font-family: sans-serif;
+    background-color: rgb(198, 235, 148)
 }
 
 body{
     padding: 0;
     margin: 0;
+}
+
+h1 {
+    margin-bottom: 60px;
+}
+
+#intro {
+    margin-bottom: 30px;
 }
 
 #start-page{
@@ -19,28 +28,52 @@ body{
 
 #start-page .container{
     text-align: center;
-    background: lightgray ;
-    width: 80%;
+    width: 90%;
     padding: 2rem;
 }
 
 button{
     padding: .5rem 1rem;
     margin: .5rem 0;
+    background-color: white;
+}
 
-
-    /* 6bbde7a0df13f894d507580ef109050b6b1d9a38 */
+#new-search-button{
+    padding: auto;
+    margin: 0;
+    background-color: rgb(198, 235, 148)
 }
 
 #nav-bar {
-    background-color: rgb(226, 223, 223);
+    background-color: white;
     margin: 0;
-    padding: 0;
+    padding: 10px 5px;
     display: flex;
     justify-content: space-between;
-
+    height: 50px;
 }
 
 #logo {
-    width: 7%;    
+    width: 10%;    
+}
+
+.hidden {
+    display: none;
+}
+
+h3 {
+    margin-bottom: 40px;
+}
+
+input {
+    margin-top: 15px;
+}
+
+select {
+    background-color: white;
+}
+
+#search-form {
+    text-align: left;
+
 }
