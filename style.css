@@ -42,21 +42,21 @@ button{
 
 #new-search-button{
     padding: auto;
-    margin: 0;
+    margin: 10px;
     background-color: rgb(205, 231, 170)
 }
 
 #nav-bar {
     background-color: white;
     margin: 0;
-    padding: 10px 5px;
     display: flex;
     justify-content: space-between;
     height: 50px;
 }
 
 #logo {
-    width: 30px;    
+    width: 60px;
+    padding: 2px 5px 0 4px;    
 }
 
 .hidden {
@@ -94,7 +94,8 @@ select {
 
 /* results */
 #results {
-    margin-top: 75px;
+    margin: 1900px 15px 50px 10px;
+
 }
 
 #results-list {

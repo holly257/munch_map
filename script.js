@@ -24,6 +24,16 @@ $('#start-app').on('click', function(){
 	$('#second-page').show();
 })
 
+$('#info-button').on('click', function(){
+	$('#info').show();
+})
+
+$('#new-search-button').on('click', function(){
+	$('#first-page').hide();
+	$('#results').hide();
+	$('#second-page').show();
+})
+
 function formatQueryParams(params) {
   const queryItems = Object.keys(params)
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
@@ -197,3 +207,4 @@ function watchForm() {
   
 $(watchForm);
 $('#second-page').hide();
+$('#info').hide();

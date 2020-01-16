@@ -7,8 +7,8 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <!-- mapbox cdn -->
-    <script src='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css" rel='stylesheet' />
 </head>
 <body>
 
@@ -23,10 +23,8 @@
         <div class="container" id="first-page" >
             <div class="start-box">
                 <h1>Welcome to the food finder app!</h1>
-                <p id="intro">Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum vero harum non distinctio nostrum quaerat.</p>
-                <button>
-                    <a href="#">How we built this?</a>
-                </button>
+                <p id="info">Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum vero harum non distinctio nostrum quaerat.</p>
+                <button id="info-button">How we built this?</button>
             </div>
             <button id="start-app">Search for a restaurant!</button>
         </div>
@@ -54,7 +52,7 @@
         <section id="results" class="hidden">
             <h2>Search results</h2>
             <div id="map-container">
-                <div id='map'></div>
+                <div id="map"></div>
             </div>
             <ul id="results-list">
             </ul>
