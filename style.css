@@ -82,6 +82,13 @@ select {
     text-align: left;
 }
 
+/* map box */
+
+
+#map {
+    width: 400px; height: 300px;
+  }
+
 @media (min-width: 600px) {
     button {
         font-size: 90%;

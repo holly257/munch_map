@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <!-- mapbox cdn -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
 </head>
 <body>
 
@@ -63,8 +66,13 @@
     </div>
 
     <div>
-
-    <!-- other stuff -->
+        <button id="show-map">Show Map</button>
+      </div>
+    <div class="container">
+      <!-- Mapbox container for now -->
+        <div id="map-container">
+          <div id='map'></div>
+        </div>
     </div>
 
 
