@@ -44,7 +44,7 @@ function displayResults(responseJson) {
 		<br>`
 		);	
 	}
-	
+	showMap(lat, lon);
 
 }
 
@@ -195,16 +195,15 @@ function watchForm() {
     let locationGiven = `${cityGiven}, ${stateGiven}`;
     	getRestaurant(cityGiven, locationGiven);
   });
-  // new
-	$("#show-map").click(showMap(lat, lon));
-  }
+  
+}
   
   let lat = -84.388
   let lon = 33.749
   
-  $(watchForm);
+$(watchForm);
   
-  function showMap(){
+function showMap(){
 	mapboxgl.accessToken = 'pk.eyJ1IjoiaG9sbHktMjkzODQ3IiwiYSI6ImNrNTlybDc0YTEydnIzZ3A3bHc5eHZwaWgifQ.7B75rcVKQJASnlD_-yIDkQ';
 	let map = new mapboxgl.Map({
 	  container: 'map',
@@ -217,7 +216,7 @@ function watchForm() {
   
 	new mapboxgl.Marker().setLngLat([lat, lon]).addTo(map);
 	  
-  }
+}
 
 
 
