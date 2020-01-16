@@ -20,7 +20,7 @@
     </nav>
     
     <div id="start-page" >
-        <div class="container">
+        <div class="container" id="first-page" >
             <div class="start-box">
                 <h1>Welcome to the food finder app!</h1>
                 <p id="intro">Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum vero harum non distinctio nostrum quaerat.</p>
@@ -30,12 +30,10 @@
             </div>
             <button id="start-app">Search for a restaurant!</button>
         </div>
-    </div>
 
-    <div id="start-page" >
-        <div class="container" >
-            <h2 class='search-hidden'>Restaurant Search</h2>
-            <form class='search-hidden' action="" id="search-form">
+         <div class="container" id="second-page">
+            <h2>Restaurant Search</h2>
+            <form action="" id="search-form">
                 <label for="js-search-state">State: &nbsp</label>
                     <select name="search-state" id="js-search-state" required></select>
                     <br>
@@ -50,17 +48,19 @@
                 <br>
                 <button>Get Restaurants!</button>
             </form>
-
-            <p id="js-error-message" class="error-message"></p>
-            <section id="results" class="hidden">
-                <h2>Search results</h2>
-                <div id="map-container">
-                    <div id='map'></div>
-                </div>
-                <ul id="results-list">
-                </ul>
-            </section>
         </div>
+
+        <p id="js-error-message" class="error-message"></p>
+        <section id="results" class="hidden">
+            <h2>Search results</h2>
+            <div id="map-container">
+                <div id='map'></div>
+            </div>
+            <ul id="results-list">
+            </ul>
+        </section>
+        
+            
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

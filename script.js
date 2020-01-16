@@ -19,11 +19,9 @@ let lat = 0;
 let lon = 0;
 
 $('#start-app').on('click', function(){
-	$('h2').toggleClass('search-hidden');
-	$('form').toggleClass('search-hidden');
-	$('h1').toggleClass('search-hidden');
-	$('.start-box').toggleClass('search-hidden');
-	$('#start-app').toggleClass('search-hidden');
+	$('#first-page').hide();
+	$('#results').hide();
+	$('#second-page').show();
 })
 
 function formatQueryParams(params) {
@@ -39,8 +37,8 @@ function displayResults(responseJson) {
 	$("#js-error-message").addClass("hidden");
 	$("#results-list").empty();
 	$("#results").removeClass("hidden");
-	$('h2').toggleClass('search-hidden');
-	$('form').toggleClass('search-hidden');
+	$('#results').show();
+	$('#second-page').hide();
 	showMap(responseJson.restaurants[0].restaurant.location.longitude, responseJson.restaurants[0].restaurant.location.latitude);
 	
 	for( let i = 0; i < responseJson.restaurants.length; i++) {
@@ -198,3 +196,4 @@ function watchForm() {
 }
   
 $(watchForm);
+$('#second-page').hide();

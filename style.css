@@ -27,6 +27,7 @@ h1 {
 }
 
 #start-page .container{
+    margin-top: 75px;
     text-align: center;
     padding: 2rem;
 }
@@ -62,10 +63,6 @@ button{
     display: none;
 }
 
-.search-hidden {
-    display: none;
-}
-
 h2 {
     margin-bottom: 40px;
 }
@@ -97,7 +94,7 @@ select {
 
 /* results */
 #results {
-    margin-top: 130px;
+    margin-top: 75px;
 }
 
 #results-list {
