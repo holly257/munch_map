@@ -18,6 +18,14 @@ let error = true;
 let lat = 0;
 let lon = 0;
 
+$('#start-app').on('click', function(){
+	$('h2').toggleClass('search-hidden');
+	$('form').toggleClass('search-hidden');
+	$('h1').toggleClass('search-hidden');
+	$('.start-box').toggleClass('search-hidden');
+	$('#start-app').toggleClass('search-hidden');
+})
+
 function formatQueryParams(params) {
   const queryItems = Object.keys(params)
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
@@ -31,6 +39,8 @@ function displayResults(responseJson) {
 	$("#js-error-message").addClass("hidden");
 	$("#results-list").empty();
 	$("#results").removeClass("hidden");
+	$('h2').toggleClass('search-hidden');
+	$('form').toggleClass('search-hidden');
 	showMap(responseJson.restaurants[0].restaurant.location.longitude, responseJson.restaurants[0].restaurant.location.latitude);
 	
 	for( let i = 0; i < responseJson.restaurants.length; i++) {

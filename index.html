@@ -18,7 +18,6 @@
         <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/flat-icons" title="Flat Icons">Flat Icons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
         <button id="new-search-button">New Search</button>
     </nav>
-<!-- make nav bar hidden on page load -->
     
     <div id="start-page" >
         <div class="container">
@@ -33,11 +32,10 @@
         </div>
     </div>
 
-<!-- make this container hidden on page load -->
-    <div id="start-page" class='search-hidden'>
-        <div class="container">
-            <h2>Restaurant Search</h2>
-            <form action="" id="search-form">
+    <div id="start-page" >
+        <div class="container" >
+            <h2 class='search-hidden'>Restaurant Search</h2>
+            <form class='search-hidden' action="" id="search-form">
                 <label for="js-search-state">State: &nbsp</label>
                     <select name="search-state" id="js-search-state" required></select>
                     <br>
@@ -64,10 +62,6 @@
             </section>
         </div>
     </div>
-
-        
-    
-
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="script.js"></script>
