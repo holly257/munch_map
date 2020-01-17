@@ -80,9 +80,6 @@ function displayResults(responseJson) {
 	showMap();
 }
 
-
-
-
 // this funciton sets the map properties, zoom, and location marker
 function showMap(){
 	mapboxgl.accessToken = 'pk.eyJ1IjoiaG9sbHktMjkzODQ3IiwiYSI6ImNrNTlybDc0YTEydnIzZ3A3bHc5eHZwaWgifQ.7B75rcVKQJASnlD_-yIDkQ';
@@ -97,20 +94,6 @@ function showMap(){
 	localMarker.forEach(marker => {
 		new mapboxgl.Marker().setLngLat(marker.geometry.coordinates).addTo(map);
 	})
-
-	// map.on('load', function() { console.log("hello")
-	// 	map.addLayer({
-	// 		'id': 'points',
-	// 		'type': 'symbol',
-	// 		'source': {
-	// 			'type': 'geojson',
-	// 			'data': {
-	// 				'type': 'FeatureCollection',
-	// 				'features': localMarker
-	// 			}	
-	// 		}
-	// 	})
-	// });
 }
 
 // this function uses the /search parameter with the id of the cuisine(s) and city id, reterns restautant data
@@ -142,6 +125,8 @@ function getRestaurantList(cityId, cuisineId) {
 // if they dont provide a category then we can put the value as all, and it will show all of them
 function getCuisineId(responseJson, cityId) {
 	let categoryGiven = $('#js-search-category').val();
+	formatEntry(categoryGiven);
+	categoryGiven = newWord;
 	// if categoryGiven equals to an empty string then make it equal to all
 	// and call getRestaurantList function with the cityid and categoryGiven
 	if(categoryGiven == "" || categoryGiven == "all" || categoryGiven == "All") {
@@ -150,7 +135,6 @@ function getCuisineId(responseJson, cityId) {
 	} else {
 		for (let i = 0; i < responseJson.cuisines.length; i++){
 			if(responseJson.cuisines[i].cuisine.cuisine_name == categoryGiven) {
-				console.log(responseJson.cuisines[i].cuisine.cuisine_id);
 				let cuisineId = responseJson.cuisines[i].cuisine.cuisine_id;
 				error = true;
 				getRestaurantList(cityId, cuisineId);
@@ -225,20 +209,33 @@ function getCityId(cityGiven, locationGiven) {
 }
 
 function watchForm() {
+	$('#second-page').hide();
+	$('#info').hide();
+
   $('form').submit(event => {
     event.preventDefault();
     const stateGiven = $('#js-search-state').val();
-    const cityGiven = $('#js-search-city').val();
+	let cityGiven = $('#js-search-city').val().toLowerCase();
+	formatEntry(cityGiven);
     $("#js-error-message").empty();
     $("#js-error-message").addClass("hidden");
 	$("#results-list").empty();
 	$("#results").addClass("hidden");
+	
+	cityGiven = newWord;
     let locationGiven = `${cityGiven}, ${stateGiven}`;
 		getCityId(cityGiven, locationGiven);
   });
   
 }
+
+function formatEntry(word){
+	let firstChar = word.charAt(0).toUpperCase();
+	let lastChars = word.slice(1);
+	newWord = firstChar.concat(lastChars);
+	return newWord;
+}
+
+let newWord = "";
   
 $(watchForm);
-$('#second-page').hide();
-$('#info').hide();
