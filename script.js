@@ -92,7 +92,9 @@ function showMap(){
 	});
   
 	map.addControl(new mapboxgl.NavigationControl());
-	new mapboxgl.Marker().setLngLat(localMarker[0].geometry.coordinates).addTo(map);	  
+	localMarker.forEach(marker => {
+		new mapboxgl.Marker().setLngLat(marker.geometry.coordinates).addTo(map);
+	})
 }
 
 // this function uses the /search parameter with the id of the cuisine(s) and city id, reterns restautant data
