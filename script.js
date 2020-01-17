@@ -79,7 +79,7 @@ function showMap(lat, lon){
 	new mapboxgl.Marker().setLngLat([lat, lon]).addTo(map);	  
 }
 
-// this function uses the /search parameter with the id of the cuisine(s) and city id, reterns restautant data
+// this function uses the /search parameter with the id of the cuisine(s) and city id, returns restautant data
 // so we can show them name, url, address, cusine name, rating, phone number, operation hours, menu url
 function getRestaurantList(cityId, cuisineId) {
 	const newUrl = zomatoUrl + 'search?' + `entity_id=${cityId}&entity_type=city&cuisines=${cuisineId}&start=5&count=15`;
