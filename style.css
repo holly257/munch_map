@@ -152,4 +152,8 @@ select {
     #map{
         height: 500px; 
     }
+
+    #results-list {
+        margin-top: 550px;
+    }
 }
