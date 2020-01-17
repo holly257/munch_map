@@ -41,6 +41,8 @@ function formatQueryParams(params) {
 }
 
 // this function will display the results showing the list of restaurants and their info
+let localMarker = [];
+
 function displayResults(responseJson) {
 	error = true;
 	$("#js-error-message").empty();
@@ -49,7 +51,7 @@ function displayResults(responseJson) {
 	$("#results").removeClass("hidden");
 	$('#results').show();
 	$('#second-page').hide();
-	showMap(responseJson.restaurants[0].restaurant.location.longitude, responseJson.restaurants[0].restaurant.location.latitude);
+	
 	
 	for( let i = 0; i < responseJson.restaurants.length; i++) {
 		let restauPath = responseJson.restaurants[i].restaurant;
@@ -62,21 +64,35 @@ function displayResults(responseJson) {
 		<li>Hours: ${restauPath.timings}</li>
 		<br>`
 		);	
+
+		// Defining a variable that represents the coordinates and 
+// type of pointer for each location that is returned.
+ localMarker.push(
+	{ type: 'Feature', 
+	geometry: { 
+		type: 'Point', 
+		coordinates: [restauPath.location.longitude, 						restauPath.location.latitude] } 
+	}
+ );
+	
+
 	}	
+	showMap();
 }
 
+
 // this funciton sets the map properties, zoom, and location marker
-function showMap(lat, lon){
+function showMap(){
 	mapboxgl.accessToken = 'pk.eyJ1IjoiaG9sbHktMjkzODQ3IiwiYSI6ImNrNTlybDc0YTEydnIzZ3A3bHc5eHZwaWgifQ.7B75rcVKQJASnlD_-yIDkQ';
 	let map = new mapboxgl.Map({
 	  container: 'map',
 	  style: 'mapbox://styles/mapbox/streets-v11',
-	  center: [lat, lon],
-	  zoom: 12
+	  center: localMarker[0].geometry.coordinates,
+	  zoom: 10
 	});
   
 	map.addControl(new mapboxgl.NavigationControl());
-	new mapboxgl.Marker().setLngLat([lat, lon]).addTo(map);	  
+	new mapboxgl.Marker().setLngLat(localMarker[0].geometry.coordinates).addTo(map);	  
 }
 
 // this function uses the /search parameter with the id of the cuisine(s) and city id, returns restautant data
