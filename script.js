@@ -68,17 +68,19 @@ function displayResults(responseJson) {
 		// Defining a variable that represents the coordinates and 
 // type of pointer for each location that is returned.
  localMarker.push(
-	{ type: 'Feature', 
+	{ 
+	type: 'Feature', 
 	geometry: { 
 		type: 'Point', 
-		coordinates: [restauPath.location.longitude, 						restauPath.location.latitude] } 
+		coordinates: [restauPath.location.longitude, restauPath.location.latitude] 
+		} 
 	}
  );
-	
-
 	}	
 	showMap();
 }
+
+
 
 
 // this funciton sets the map properties, zoom, and location marker
@@ -95,6 +97,20 @@ function showMap(){
 	localMarker.forEach(marker => {
 		new mapboxgl.Marker().setLngLat(marker.geometry.coordinates).addTo(map);
 	})
+
+	// map.on('load', function() { console.log("hello")
+	// 	map.addLayer({
+	// 		'id': 'points',
+	// 		'type': 'symbol',
+	// 		'source': {
+	// 			'type': 'geojson',
+	// 			'data': {
+	// 				'type': 'FeatureCollection',
+	// 				'features': localMarker
+	// 			}	
+	// 		}
+	// 	})
+	// });
 }
 
 // this function uses the /search parameter with the id of the cuisine(s) and city id, reterns restautant data
