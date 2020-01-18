@@ -52,7 +52,6 @@ function displayResults(responseJson) {
 	$('#results').show();
 	$('#second-page').hide();
 	
-	
 	for( let i = 0; i < responseJson.restaurants.length; i++) {
 		let restauPath = responseJson.restaurants[i].restaurant;
 		$("#results-list").append(
@@ -63,25 +62,24 @@ function displayResults(responseJson) {
 		<li>Type of Cuisine(s): ${restauPath.cuisines}</li>
 		<li>Hours: ${restauPath.timings}</li>
 		<br>`
-		);	
+		);
 
 		// Defining a variable that represents the coordinates and 
-// type of pointer for each location that is returned.
- localMarker.push(
-	{ 
-	type: 'Feature', 
-	geometry: { 
-		type: 'Point', 
-		coordinates: [restauPath.location.longitude, restauPath.location.latitude] 
-		} 
+		// type of pointer for each location that is returned.
+		localMarker.push(
+			{ 
+			type: 'Feature',
+			geometry: { 
+				type: 'Point', 
+				coordinates: [restauPath.location.longitude, restauPath.location.latitude] 
+				},
+			id: restauPath.name
+			},
+		);
 	}
- );
-	}	
+
 	showMap();
 }
-
-
-
 
 // this funciton sets the map properties, zoom, and location marker
 function showMap(){
@@ -95,22 +93,10 @@ function showMap(){
   
 	map.addControl(new mapboxgl.NavigationControl());
 	localMarker.forEach(marker => {
-		new mapboxgl.Marker().setLngLat(marker.geometry.coordinates).addTo(map);
+		// new mapboxgl.Marker().setLngLat(marker.geometry.coordinates).addTo(map);
+		new mapboxgl.Popup({ closeOnClick: false }).setLngLat(marker.geometry.coordinates).setHTML(`<p>${marker.id}</p>`).addTo(map);
+	
 	})
-
-	// map.on('load', function() { console.log("hello")
-	// 	map.addLayer({
-	// 		'id': 'points',
-	// 		'type': 'symbol',
-	// 		'source': {
-	// 			'type': 'geojson',
-	// 			'data': {
-	// 				'type': 'FeatureCollection',
-	// 				'features': localMarker
-	// 			}	
-	// 		}
-	// 	})
-	// });
 }
 
 // this function uses the /search parameter with the id of the cuisine(s) and city id, returns restautant data
@@ -142,6 +128,8 @@ function getRestaurantList(cityId, cuisineId) {
 // if they dont provide a category then we can put the value as all, and it will show all of them
 function getCuisineId(responseJson, cityId) {
 	let categoryGiven = $('#js-search-category').val();
+	formatEntry(categoryGiven);
+	categoryGiven = newWord;
 	// if categoryGiven equals to an empty string then make it equal to all
 	// and call getRestaurantList function with the cityid and categoryGiven
 	if(categoryGiven == "" || categoryGiven == "all" || categoryGiven == "All") {
@@ -150,7 +138,6 @@ function getCuisineId(responseJson, cityId) {
 	} else {
 		for (let i = 0; i < responseJson.cuisines.length; i++){
 			if(responseJson.cuisines[i].cuisine.cuisine_name == categoryGiven) {
-				console.log(responseJson.cuisines[i].cuisine.cuisine_id);
 				let cuisineId = responseJson.cuisines[i].cuisine.cuisine_id;
 				error = true;
 				getRestaurantList(cityId, cuisineId);
@@ -225,20 +212,33 @@ function getCityId(cityGiven, locationGiven) {
 }
 
 function watchForm() {
+	$('#second-page').hide();
+	$('#info').hide();
+
   $('form').submit(event => {
     event.preventDefault();
     const stateGiven = $('#js-search-state').val();
-    const cityGiven = $('#js-search-city').val();
+	let cityGiven = $('#js-search-city').val().toLowerCase();
+	formatEntry(cityGiven);
     $("#js-error-message").empty();
     $("#js-error-message").addClass("hidden");
 	$("#results-list").empty();
 	$("#results").addClass("hidden");
+	
+	cityGiven = newWord;
     let locationGiven = `${cityGiven}, ${stateGiven}`;
 		getCityId(cityGiven, locationGiven);
   });
   
 }
+
+function formatEntry(word){
+	let firstChar = word.charAt(0).toUpperCase();
+	let lastChars = word.slice(1);
+	newWord = firstChar.concat(lastChars);
+	return newWord;
+}
+
+let newWord = "";
   
 $(watchForm);
-$('#second-page').hide();
-$('#info').hide();

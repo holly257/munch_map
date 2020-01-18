@@ -9,6 +9,7 @@
     <!-- mapbox cdn -->
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css" rel='stylesheet' />
+
 </head>
 <body>
 
@@ -40,7 +41,7 @@
 
                 <br>
                 <label for="js-search-category">Category: &nbsp</label>
-                <input type="text" placeholder="Italian, India, Chinese" name="search-category" id="js-search-category">
+                <input type="text" placeholder="Italian, Mexican, Chinese" name="search-category" id="js-search-category">
                 
                 <br>
                 <br>
@@ -50,12 +51,16 @@
 
         <p id="js-error-message" class="error-message"></p>
         <section id="results" class="hidden">
-            <h2>Search results</h2>
             <div id="map-container">
                 <div id="map"></div>
             </div>
-            <ul id="results-list">
-            </ul>
+            <div id="resutls-container">
+                <h2 id="search-results">Search results</h2>
+                <br>
+                <ul id="results-list">
+                </ul>
+            </div>
+            
         </section>
         
             
