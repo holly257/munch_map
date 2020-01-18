@@ -18,10 +18,12 @@ p{
     color: var(--dark);
 }
 
+
 .info{ 
     line-height: 25px; 
     padding-bottom: 30px;
     max-width: 560px; 
+
 }
 
 body{
@@ -118,7 +120,6 @@ select {
     position: relative;
     margin-top: 30px;
 }
- 
 
 .map-container {
     display: flex;
@@ -137,6 +138,14 @@ select {
 .mapboxgl-ctrl-group { 
     border: 1px solid #f8be68; 
     box-shadow: 0 0 0 1px #ffd95b !important; 
+}
+
+.mapboxgl-popup-content {
+    padding: 0 10px 0px !important;
+}
+
+.mapboxgl-popup-close-button {
+    display: none;
 }
 
 /* results */
