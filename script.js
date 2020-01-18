@@ -19,7 +19,7 @@ $('#start-app').on('click', function(){
 })
 
 $('#info-button').on('click', function(){
-	$('#info').show();
+	$('.info').show();
 })
 
 $('#new-search-button').on('click', function(){
@@ -50,7 +50,9 @@ function displayResults(responseJson) {
 	$("#results").removeClass("hidden");
 	$('#results').show();
 	$('#second-page').hide();
-	
+
+	localMarker = [];
+
 	for( let i = 0; i < responseJson.restaurants.length; i++) {
 		let restauPath = responseJson.restaurants[i].restaurant;
 		$("#results-list").append(
@@ -101,7 +103,7 @@ function showMap(){
 	map.addControl(new mapboxgl.NavigationControl());
 	localMarker.forEach(marker => {
 		// new mapboxgl.Marker().setLngLat(marker.geometry.coordinates).addTo(map);
-	 new mapboxgl.Popup({ closeOnClick: false }).setLngLat(marker.geometry.coordinates).setHTML(`<p>${marker.id}</p>`).addTo(map);
+	new mapboxgl.Popup({ closeOnClick: false }).setLngLat(marker.geometry.coordinates).setHTML(`<p>${marker.id}</p>`).addTo(map);
 	
 	})
 }
@@ -115,16 +117,16 @@ function getRestaurantList(cityId, cuisineId) {
 			'user-key': zomatoKey
 		}
 	})
-		.then(response => {
-			if (response.ok) {
-			return response.json();
+	.then(response => {
+		if (response.ok) {
+		return response.json();
 			}
-			throw new Error(response.statusText);
+		throw new Error(response.statusText);
 		})
-		.then(responseJson => displayResults(responseJson))
-		.catch(err => {
-			$("#js-error-message").removeClass("hidden");
-			$('#js-error-message').text(`Something went wrong: ${err.message}`);
+	.then(responseJson => displayResults(responseJson))
+	.catch(err => {
+		$("#js-error-message").removeClass("hidden");
+		$('#js-error-message').text(`Something went wrong: ${err.message}`);
 		});
 }
 
@@ -207,7 +209,7 @@ function getCityId(cityGiven, locationGiven) {
 
 function watchForm() {
 	$('#second-page').hide();
-	$('#info').hide();
+	$('.info').hide();
 
   	$('form').submit(event => {
 		event.preventDefault();

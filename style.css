@@ -1,6 +1,6 @@
 :root{
-    --primary: #ffa726;
-    --primary-dark: #c77800;
+    --primary: #f8be68;
+    --primary-dark: #e78f0a;
     --primary-light: #ffd95b;
     --dark: #263238;
 
@@ -20,7 +20,8 @@ p{
 
 .info{ 
     line-height: 25px; 
-    padding-bottom: 30px; 
+    padding-bottom: 30px;
+    max-width: 560px; 
 }
 
 body{
@@ -61,7 +62,7 @@ button{
 
 #new-search-button{
     background: var(--primary);
-    color: #fff;
+    color: #000;
     padding: auto;
     margin: 10px;
 
@@ -191,6 +192,7 @@ select {
 
     #search-results {
         padding-top: 20px;
+        padding-bottom: 20px;
     }
 
     #map {
