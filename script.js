@@ -29,6 +29,7 @@ $('#new-search-button').on('click', function(){
 	$('#js-search-state').val("AL");
 	$('#js-search-city').val("");
 	$('#js-search-category').val("");
+	resetMap();
 })
 
 states.forEach(element =>
@@ -81,7 +82,13 @@ function displayResults(responseJson) {
 
 
 let map = {};
+// working on it 
+function resetMap(){
+	
 
+	
+}
+  
 
 
 function showMap(){
@@ -98,13 +105,10 @@ function showMap(){
 		// new mapboxgl.Marker().setLngLat(marker.geometry.coordinates).addTo(map);
 	new mapboxgl.Popup({ closeOnClick: false }).setLngLat(marker.geometry.coordinates).setHTML(`<p>${marker.id}</p>`).addTo(map);
 	
-		
-
 	})
 }
 
-function getRestaurantList(cityId, cuisineId) {f
-	
+function getRestaurantList(cityId, cuisineId) {
 	const newUrl = zomatoUrl + 'search?' + `entity_id=${cityId}&entity_type=city&cuisines=${cuisineId}&start=5&count=15`;
 
 	fetch(newUrl, {
@@ -131,7 +135,7 @@ function getCuisineId(responseJson, cityId) {
 	formatEntry(categoryGiven);
 	categoryGiven = newStr;
 	
-	if(categoryGiven === "" || categoryGiven === "all" || categoryGiven === "All") {
+	if(categoryGiven == "" || categoryGiven == "all" || categoryGiven == "All") {
 		categoryGiven = "all";
 		getRestaurantList(cityId, categoryGiven)
 	} else {
@@ -140,7 +144,6 @@ function getCuisineId(responseJson, cityId) {
 		if(cuisineChoice){
 			getRestaurantList(cityId, cuisineChoice.cuisine.cuisine_id);
 		} else {
-
 			$("#js-error-message").removeClass("hidden");
 			$('#js-error-message').text(`Invalid cuisine! Try again or leave it blank to get a list of cuisines.`);
 		}
@@ -225,6 +228,7 @@ function watchForm() {
 			// resetMap();
 
 	});
+  
 }
 
 function formatEntry(word){
