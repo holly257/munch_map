@@ -129,7 +129,7 @@ function getRestaurantList(cityId, cuisineId) {
 function getCuisineId(responseJson, cityId) {
 	let categoryGiven = $('#js-search-category').val();
 	formatEntry(categoryGiven);
-	categoryGiven = newWord;
+	categoryGiven = newStr;
 	// if categoryGiven equals to an empty string then make it equal to all
 	// and call getRestaurantList function with the cityid and categoryGiven
 	if(categoryGiven == "" || categoryGiven == "all" || categoryGiven == "All") {
@@ -218,14 +218,15 @@ function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
     const stateGiven = $('#js-search-state').val();
-	let cityGiven = $('#js-search-city').val().toLowerCase();
+	let cityGiven = $('#js-search-city').val();
 	formatEntry(cityGiven);
+
     $("#js-error-message").empty();
     $("#js-error-message").addClass("hidden");
 	$("#results-list").empty();
 	$("#results").addClass("hidden");
-	
-	cityGiven = newWord;
+
+	cityGiven = newStr;
     let locationGiven = `${cityGiven}, ${stateGiven}`;
 		getCityId(cityGiven, locationGiven);
   });
@@ -233,12 +234,14 @@ function watchForm() {
 }
 
 function formatEntry(word){
-	let firstChar = word.charAt(0).toUpperCase();
-	let lastChars = word.slice(1);
-	newWord = firstChar.concat(lastChars);
-	return newWord;
+	let splitStr = word.toLowerCase().split(' ');
+	for (var i = 0; i < splitStr.length; i++) {
+		splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+	}
+	newStr = splitStr.join(' ');
+	return newStr;
 }
 
-let newWord = "";
+let newStr = "";
   
 $(watchForm);
