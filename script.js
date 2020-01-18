@@ -78,6 +78,7 @@ function displayResults(responseJson) {
 	showMap();
 }
 
+
 let map = {};
 // working on it 
 function resetMap(){
@@ -97,7 +98,7 @@ function showMap(){
 	map.addControl(new mapboxgl.NavigationControl());
 	localMarker.forEach(marker => {
 		// new mapboxgl.Marker().setLngLat(marker.geometry.coordinates).addTo(map);
-		new mapboxgl.Popup({ closeOnClick: false }).setLngLat(marker.geometry.coordinates).setHTML(`<p>${marker.id}</p>`).addTo(map);
+	 new mapboxgl.Popup({ closeOnClick: false }).setLngLat(marker.geometry.coordinates).setHTML(`<p>${marker.id}</p>`).addTo(map);
 	
 	})
 }
