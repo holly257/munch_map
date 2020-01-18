@@ -52,7 +52,6 @@ function displayResults(responseJson) {
 	$('#results').show();
 	$('#second-page').hide();
 	
-	
 	for( let i = 0; i < responseJson.restaurants.length; i++) {
 		let restauPath = responseJson.restaurants[i].restaurant;
 		$("#results-list").append(
@@ -63,20 +62,22 @@ function displayResults(responseJson) {
 		<li>Type of Cuisine(s): ${restauPath.cuisines}</li>
 		<li>Hours: ${restauPath.timings}</li>
 		<br>`
-		);	
+		);
 
 		// Defining a variable that represents the coordinates and 
-// type of pointer for each location that is returned.
- localMarker.push(
-	{ 
-	type: 'Feature', 
-	geometry: { 
-		type: 'Point', 
-		coordinates: [restauPath.location.longitude, restauPath.location.latitude] 
-		} 
+		// type of pointer for each location that is returned.
+		localMarker.push(
+			{ 
+			type: 'Feature',
+			geometry: { 
+				type: 'Point', 
+				coordinates: [restauPath.location.longitude, restauPath.location.latitude] 
+				},
+			id: restauPath.name
+			},
+		);
 	}
- );
-	}	
+
 	showMap();
 }
 
@@ -92,7 +93,9 @@ function showMap(){
   
 	map.addControl(new mapboxgl.NavigationControl());
 	localMarker.forEach(marker => {
-		new mapboxgl.Marker().setLngLat(marker.geometry.coordinates).addTo(map);
+		// new mapboxgl.Marker().setLngLat(marker.geometry.coordinates).addTo(map);
+		new mapboxgl.Popup({ closeOnClick: false }).setLngLat(marker.geometry.coordinates).setHTML(`<p>${marker.id}</p>`).addTo(map);
+	
 	})
 }
 
