@@ -82,9 +82,12 @@ function displayResults(responseJson) {
 let map = {};
 // working on it 
 function resetMap(){
-	$("#map").empty();
-  
+	
+
+	
 }
+  
+
 
 function showMap(){
 	mapboxgl.accessToken = 'pk.eyJ1IjoiaG9sbHktMjkzODQ3IiwiYSI6ImNrNTlybDc0YTEydnIzZ3A3bHc5eHZwaWgifQ.7B75rcVKQJASnlD_-yIDkQ';
@@ -134,18 +137,13 @@ function getCuisineId(responseJson, cityId) {
 		categoryGiven = "all";
 		getRestaurantList(cityId, categoryGiven)
 	} else {
-		for (let i = 0; i < responseJson.cuisines.length; i++){
-			if(responseJson.cuisines[i].cuisine.cuisine_name == categoryGiven) {
-				let cuisineId = responseJson.cuisines[i].cuisine.cuisine_id;
-				error = true;
-				getRestaurantList(cityId, cuisineId);
-				
-			} else {
-					if(error == false) {
-						$("#js-error-message").removeClass("hidden");
-						$('#js-error-message').text(`Invalid cuisine! Try again or leave it blank to get a list of cuisines.`);
-					}	
-			}
+
+		const cuisineChoice = responseJson.cuisines.find(cuisine => cuisine.cuisine.cuisine_name === categoryGiven);
+		if(cuisineChoice){
+			getRestaurantList(cityId, cuisineChoice.cuisine.cuisine_id);
+		} else {
+			$("#js-error-message").removeClass("hidden");
+			$('#js-error-message').text(`Invalid cuisine! Try again or leave it blank to get a list of cuisines.`);
 		}
 	} 
 }
@@ -225,6 +223,8 @@ function watchForm() {
 		cityGiven = newStr;
 		let locationGiven = `${cityGiven}, ${stateGiven}`;
 			getCityId(cityGiven, locationGiven);
+			// resetMap();
+
 	});
   
 }

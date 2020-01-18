@@ -18,9 +18,11 @@ p{
     color: var(--dark);
 }
 
-.mapboxgl-popup-content{
-    background: red;
+.info{ 
+    line-height: 25px; 
+    padding-bottom: 30px; 
 }
+
 body{
     padding: 0;
     margin: 0;
@@ -40,7 +42,6 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* height: 100vh; */
 }
 
 #start-page .container{
@@ -69,6 +70,8 @@ button{
 #nav-bar {
     background-color: var(--primary-dark);
     margin: 0;
+    padding-right: 20px;
+    padding-left: 20px;
     display: flex;
     justify-content: space-between;
     position: sticky;
@@ -85,8 +88,8 @@ button{
     display: none;
 }
 
-h2 {
-    /*margin-bottom: 40px;*/
+h2 { 
+    margin-bottom: 40px; 
 }
 
 input {
@@ -108,26 +111,31 @@ select {
 
 /* map box */
 #map {
-    border: 2px solid blue;
+    border: 2px solid #ffd95b;
     width: 100%; 
     height: 300px;
     position: relative;
-    margin-top: 50px;
+    margin-top: 30px;
 }
-
- #map-container {
-    /*margin: 4px 0;*/
-
-} 
+ 
 
 .map-container {
     display: flex;
     justify-content: center;
-    /*max-width: 90%;*/
-   /* padding-right: 35px;
-    padding-left: 35px;
-    padding-top: 35px;
-    padding-bottom: 35px;*/
+}
+
+.mapboxgl-popup-content { 
+    padding: 0 10px 0px !important; 
+    border: 1px solid #f8be68; 
+}
+
+.mapboxgl-popup-close-button { 
+    display: none; 
+}
+
+.mapboxgl-ctrl-group { 
+    border: 1px solid #f8be68; 
+    box-shadow: 0 0 0 1px #ffd95b !important; 
 }
 
 /* results */
@@ -137,7 +145,6 @@ select {
 
 #results-list {
     list-style-type: none;
-    /*margin-top: 280px;*/
 }
 
 #results-container{
@@ -147,10 +154,10 @@ select {
 
 #search-results {
 
-
-    /*margin-top: 250px;*/
-    /*position: fixed;*/
-    padding-top: 40px;
+    text-align: center;
+    padding: 10px;
+    margin-top: 30px;
+    margin-bottom: 0;
     background-color: var(--primary-dark);
     width: 100%;
 }
@@ -180,11 +187,9 @@ select {
     h2 {
         font-size: 200%;
         margin-top: 20px;
-        /*margin-bottom: 60px;*/
     }
 
     #search-results {
-        /*margin-top: 500px;*/
         padding-top: 20px;
     }
 
@@ -192,7 +197,5 @@ select {
         margin-top: 100px;
     }
 
-    #results-list {
-       /* margin-top: 550px;*/
-    }
+
 }
