@@ -2,7 +2,9 @@ Name: MunchMap
 Live App: https://holly257.github.io/APIhack-restaurantMap/
 Screenshots:
 ![starting page image](images/ScreenShot1.png)
+<br/>
 ![user form entry page](images/ScreenShot2.png)
+<br/>
 ![user results page](images/ScreenShot3.png)
 
 
