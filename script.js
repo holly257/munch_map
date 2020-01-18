@@ -81,6 +81,8 @@ function displayResults(responseJson) {
 	showMap();
 }
 
+
+
 // this funciton sets the map properties, zoom, and location marker
 function showMap(){
 	mapboxgl.accessToken = 'pk.eyJ1IjoiaG9sbHktMjkzODQ3IiwiYSI6ImNrNTlybDc0YTEydnIzZ3A3bHc5eHZwaWgifQ.7B75rcVKQJASnlD_-yIDkQ';
@@ -94,7 +96,7 @@ function showMap(){
 	map.addControl(new mapboxgl.NavigationControl());
 	localMarker.forEach(marker => {
 		// new mapboxgl.Marker().setLngLat(marker.geometry.coordinates).addTo(map);
-		new mapboxgl.Popup({ closeOnClick: false }).setLngLat(marker.geometry.coordinates).setHTML(`<p>${marker.id}</p>`).addTo(map);
+	 new mapboxgl.Popup({ closeOnClick: false }).setLngLat(marker.geometry.coordinates).setHTML(`<p>${marker.id}</p>`).addTo(map);
 	
 	})
 }
