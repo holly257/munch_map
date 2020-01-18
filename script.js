@@ -26,6 +26,10 @@ $('#new-search-button').on('click', function(){
 	$('#first-page').hide();
 	$('#results').hide();
 	$('#second-page').show();
+	$('#js-search-state').val("AL");
+	$('#js-search-city').val("");
+	$('#js-search-category').val("");
+	resetMap();
 })
 
 states.forEach(element =>
@@ -74,9 +78,16 @@ function displayResults(responseJson) {
 	showMap();
 }
 
+let map = {};
+// working on it 
+function resetMap(){
+	if (localMarker!==null) { for (var i = localMarker.length - 1; i >= 0; i--) { localMarker[i].remove(); } }
+  
+}
+
 function showMap(){
 	mapboxgl.accessToken = 'pk.eyJ1IjoiaG9sbHktMjkzODQ3IiwiYSI6ImNrNTlybDc0YTEydnIzZ3A3bHc5eHZwaWgifQ.7B75rcVKQJASnlD_-yIDkQ';
-	let map = new mapboxgl.Map({
+	map = new mapboxgl.Map({
 	  container: 'map',
 	  style: 'mapbox://styles/mapbox/streets-v11',
 	  center: localMarker[0].geometry.coordinates,
