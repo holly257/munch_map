@@ -29,7 +29,6 @@ $('#new-search-button').on('click', function(){
 	$('#js-search-state').val("AL");
 	$('#js-search-city').val("");
 	$('#js-search-category').val("");
-	resetMap();
 })
 
 states.forEach(element =>
@@ -50,7 +49,7 @@ function displayResults(responseJson) {
 	$("#results").removeClass("hidden");
 	$('#results').show();
 	$('#second-page').hide();
-	
+	localMarker = [];
 	for( let i = 0; i < responseJson.restaurants.length; i++) {
 		let restauPath = responseJson.restaurants[i].restaurant;
 		$("#results-list").append(
@@ -80,11 +79,7 @@ function displayResults(responseJson) {
 
 
 let map = {};
-// working on it 
-function resetMap(){
-	if (localMarker!==null) { for (var i = localMarker.length - 1; i >= 0; i--) { localMarker[i].remove(); } }
-  
-}
+
 
 function showMap(){
 	mapboxgl.accessToken = 'pk.eyJ1IjoiaG9sbHktMjkzODQ3IiwiYSI6ImNrNTlybDc0YTEydnIzZ3A3bHc5eHZwaWgifQ.7B75rcVKQJASnlD_-yIDkQ';
@@ -100,10 +95,13 @@ function showMap(){
 		// new mapboxgl.Marker().setLngLat(marker.geometry.coordinates).addTo(map);
 	 new mapboxgl.Popup({ closeOnClick: false }).setLngLat(marker.geometry.coordinates).setHTML(`<p>${marker.id}</p>`).addTo(map);
 	
+		
+
 	})
 }
 
-function getRestaurantList(cityId, cuisineId) {
+function getRestaurantList(cityId, cuisineId) {f
+	
 	const newUrl = zomatoUrl + 'search?' + `entity_id=${cityId}&entity_type=city&cuisines=${cuisineId}&start=5&count=15`;
 
 	fetch(newUrl, {
@@ -130,23 +128,41 @@ function getCuisineId(responseJson, cityId) {
 	formatEntry(categoryGiven);
 	categoryGiven = newStr;
 	
-	if(categoryGiven == "" || categoryGiven == "all" || categoryGiven == "All") {
+	if(categoryGiven === "" || categoryGiven === "all" || categoryGiven === "All") {
 		categoryGiven = "all";
 		getRestaurantList(cityId, categoryGiven)
 	} else {
-		for (let i = 0; i < responseJson.cuisines.length; i++){
-			if(responseJson.cuisines[i].cuisine.cuisine_name == categoryGiven) {
-				let cuisineId = responseJson.cuisines[i].cuisine.cuisine_id;
-				error = true;
-				getRestaurantList(cityId, cuisineId);
-				
-			} else {
-					if(error == false) {
-						$("#js-error-message").removeClass("hidden");
-						$('#js-error-message').text(`Invalid cuisine! Try again or leave it blank to get a list of cuisines.`);
-					}	
-			}
+		
+		
+		
+		
+		const cuisineChoice = responseJson.cuisines.find(cuisine => cuisine.cuisine.cuisine_name === categoryGiven);
+		
+		if(cuisineChoice){
+			getRestaurantList(cityId, cuisineChoice.cuisine.cuisine_id);
+
+		}else{
+			$("#js-error-message").removeClass("hidden");
+			$('#js-error-message').text(`Invalid cuisine! Try again or leave it blank to get a list of cuisines.`);
 		}
+
+
+		// for (let i = 0; i < responseJson.cuisines.length; i++){
+			
+		// 	if(responseJson.cuisines[i].cuisine.cuisine_name === categoryGiven) {
+		// 		let cuisineId = responseJson.cuisines[i].cuisine.cuisine_id;
+		// 		error = true;
+		// 		getRestaurantList(cityId, cuisineId);
+				
+		// 	} else {
+		// 			if(error == false) {
+		// 				$("#js-error-message").removeClass("hidden");
+		// 				$('#js-error-message').text(`Invalid cuisine! Try again or leave it blank to get a list of cuisines.`);
+		// 			}	
+		// 	}
+			
+			//		}
+		
 	} 
 }
 
@@ -226,7 +242,6 @@ function watchForm() {
 		let locationGiven = `${cityGiven}, ${stateGiven}`;
 			getCityId(cityGiven, locationGiven);
 	});
-  
 }
 
 function formatEntry(word){
