@@ -81,7 +81,7 @@ function displayResults(responseJson) {
 let map = {};
 // working on it 
 function resetMap(){
-	if (localMarker!==null) { for (var i = localMarker.length - 1; i >= 0; i--) { localMarker[i].remove(); } }
+	$("#map").empty();
   
 }
 
