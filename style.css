@@ -1,6 +1,6 @@
 :root{
-    --primary: #ffa726;
-    --primary-dark: #c77800;
+    --primary: #f8be68;
+    --primary-dark: #e78f0a;
     --primary-light: #ffd95b;
     --dark: #263238;
 
@@ -18,7 +18,10 @@ p{
     color: var(--dark);
 }
 
-
+.info{
+    line-height: 25px;
+    padding-bottom: 30px;
+}
 
 body{
     padding: 0;
