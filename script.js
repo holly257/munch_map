@@ -19,7 +19,7 @@ $('#start-app').on('click', function(){
 })
 
 $('#info-button').on('click', function(){
-	$('#info').show();
+	$('.info').show();
 })
 
 $('#new-search-button').on('click', function(){
@@ -225,7 +225,7 @@ function getCityId(cityGiven, locationGiven) {
 
 function watchForm() {
 	$('#second-page').hide();
-	$('#info').hide();
+	$('.info').hide();
 
   	$('form').submit(event => {
 		event.preventDefault();

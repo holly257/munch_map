@@ -1,6 +1,6 @@
 :root{
-    --primary: #ffa726;
-    --primary-dark: #c77800;
+    --primary: #f8be68;
+    --primary-dark: #e78f0a;
     --primary-light: #ffd95b;
     --dark: #263238;
 
@@ -18,9 +18,11 @@ p{
     color: var(--dark);
 }
 
-.mapboxgl-popup-content{
-    background: red;
+.info{
+    line-height: 25px;
+    padding-bottom: 30px;
 }
+
 body{
     padding: 0;
     margin: 0;
@@ -115,11 +117,6 @@ select {
     margin-top: 50px;
 }
 
- #map-container {
-    /*margin: 4px 0;*/
-
-} 
-
 .map-container {
     display: flex;
     justify-content: center;
@@ -128,6 +125,14 @@ select {
     padding-left: 35px;
     padding-top: 35px;
     padding-bottom: 35px;*/
+}
+
+.mapboxgl-popup-content {
+    padding: 0 10px 0px !important;
+}
+
+.mapboxgl-popup-close-button {
+    display: none;
 }
 
 /* results */
