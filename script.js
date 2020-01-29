@@ -11,6 +11,12 @@ let lat = 0;
 let lon = 0;
 let localMarker = [];
 let newStr = "";
+let stateGiven = "";
+let cityGiven = "";
+let locationGiven = "";
+let cityId = "";
+let map = {};
+
 
 $('#start-app').on('click', function(){
 	$('#first-page').hide();
@@ -76,20 +82,8 @@ function displayResults(responseJson) {
 			},
 		);
 	}
-
 	showMap();
 }
-
-
-let map = {};
-// working on it 
-function resetMap(){
-	
-
-	
-}
-  
-
 
 function showMap(){
 	mapboxgl.accessToken = 'pk.eyJ1IjoiaG9sbHktMjkzODQ3IiwiYSI6ImNrNTlybDc0YTEydnIzZ3A3bHc5eHZwaWgifQ.7B75rcVKQJASnlD_-yIDkQ';
@@ -102,7 +96,6 @@ function showMap(){
   
 	map.addControl(new mapboxgl.NavigationControl());
 	localMarker.forEach(marker => {
-		// new mapboxgl.Marker().setLngLat(marker.geometry.coordinates).addTo(map);
 	new mapboxgl.Popup({ closeOnClick: false }).setLngLat(marker.geometry.coordinates).setHTML(`<p>${marker.id}</p>`).addTo(map);
 	
 	})
@@ -150,39 +143,43 @@ function getCuisineId(responseJson, cityId) {
 	} 
 }
 
-function getCuisineList(responseJson, locationGiven) {
+function getCuisineList(cityId) {
+	const newUrl = zomatoUrl + 'cuisines?' + `city_id=${cityId}`;
+	fetch(newUrl, {
+		method: 'get',
+		headers: {
+			'user-key': zomatoKey
+		}
+	})
+	.then(response => {
+		if (response.ok) {
+		return response.json();
+		}
+		throw new Error(response.statusText);
+	})
+	.then(responseJson => getCuisineId(responseJson, cityId))
+	.catch(err => {
+		$("#js-error-message").removeClass("hidden");
+		$('#js-error-message').text(`Something went wrong: ${err.message}`);
+	});		
+}
+
+function checkIdsAgainstState(responseJson, locationGiven){
 	for (let i = 0; i < responseJson.location_suggestions.length; i++){
 		if(responseJson.location_suggestions[i].name == locationGiven) {
 			error = false;
-			let cityId = responseJson.location_suggestions[i].id;
-			const newUrl = zomatoUrl + 'cuisines?' + `city_id=${cityId}`;
-			fetch(newUrl, {
-				method: 'get',
-				headers: {
-					'user-key': zomatoKey
-				}
-			})
-			.then(response => {
-		      if (response.ok) {
-		        return response.json();
-		      }
-		      throw new Error(response.statusText);
-		    })
-		    .then(responseJson => getCuisineId(responseJson, cityId))
-		    .catch(err => {
-		    	$("#js-error-message").removeClass("hidden");
-		    	$('#js-error-message').text(`Something went wrong: ${err.message}`);
-		    });
+			cityId = responseJson.location_suggestions[i].id;
+			getCuisineList(cityId);
 		} else {
 			if(error == true) {
 				$("#js-error-message").removeClass("hidden");
 				$('#js-error-message').text(`That is not a valid location! Make sure the city is located in the state provided.`);
 			} 
-		}		
-	} 
+		}
+	}
 }
 
-function getCityId(cityGiven, locationGiven) {
+function getCities(cityGiven, locationGiven) {
 	const params = {
     q: cityGiven,
   };
@@ -200,32 +197,15 @@ function getCityId(cityGiven, locationGiven) {
       }
       throw new Error(response.statusText);
     })
-    .then(responseJson => getCuisineList(responseJson, locationGiven))
+    .then(responseJson => checkIdsAgainstState(responseJson, locationGiven))
     .catch(err => {
     	$("#js-error-message").removeClass("hidden");
     	$('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
 }
 
-function watchForm() {
-	$('#second-page').hide();
-	$('.info').hide();
-		
-  	$('form').submit(event => {
-		event.preventDefault();
-		const stateGiven = $('#js-search-state').val();
-		let cityGiven = $('#js-search-city').val();
-		formatEntry(cityGiven);
+function onSubmit(){
 
-		$("#js-error-message").empty();
-		$("#js-error-message").addClass("hidden");
-		$("#results-list").empty();
-		$("#results").addClass("hidden");
-
-		cityGiven = newStr;
-		let locationGiven = `${cityGiven}, ${stateGiven}`;
-			getCityId(cityGiven, locationGiven);
-	});
 }
 
 function formatEntry(word){
@@ -235,6 +215,28 @@ function formatEntry(word){
 	}
 	newStr = splitStr.join(' ');
 	return newStr;
+}
+
+function watchForm() {
+	$('#second-page').hide();
+	$('.info').hide();
+		
+  	$('form').submit(event => {
+		event.preventDefault();
+		stateGiven = $('#js-search-state').val();
+		cityGiven = $('#js-search-city').val();
+		formatEntry(cityGiven);
+
+		$("#js-error-message").empty();
+		$("#js-error-message").addClass("hidden");
+		$("#results-list").empty();
+		$("#results").addClass("hidden");
+
+		cityGiven = newStr;
+		locationGiven = `${cityGiven}, ${stateGiven}`;
+		getCities(cityGiven, locationGiven);
+
+	});
 }
 
 $(watchForm);
