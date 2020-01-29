@@ -1,5 +1,5 @@
-Name- MunchMap
-Live App: https://holly257.github.io/APIhack-restaurantMap/
+Name: MunchMap <br/>
+Live App: https://holly257.github.io/APIhack-restaurantMap/ <br/>
 Screenshots:
 ![user form entry page](images/ScreenShot2.png)
 <br/>
