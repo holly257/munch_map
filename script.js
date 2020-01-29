@@ -210,7 +210,7 @@ function getCityId(cityGiven, locationGiven) {
 function watchForm() {
 	$('#second-page').hide();
 	$('.info').hide();
-
+		
   	$('form').submit(event => {
 		event.preventDefault();
 		const stateGiven = $('#js-search-state').val();
@@ -225,10 +225,7 @@ function watchForm() {
 		cityGiven = newStr;
 		let locationGiven = `${cityGiven}, ${stateGiven}`;
 			getCityId(cityGiven, locationGiven);
-			// resetMap();
-
 	});
-  
 }
 
 function formatEntry(word){
