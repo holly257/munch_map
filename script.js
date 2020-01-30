@@ -16,18 +16,21 @@ let cityGiven = "";
 let locationGiven = "";
 let cityId = "";
 let map = {};
+let categoryGiven = "";
 
-
+// search for a resturant button functionality
 $('#start-app').on('click', function(){
 	$('#first-page').hide();
 	$('#results').hide();
 	$('#second-page').show();
 })
 
+// showing info behind "how we build this" button
 $('#info-button').on('click', function(){
 	$('.info').show();
 })
 
+// resetting page and values for new search
 $('#new-search-button').on('click', function(){
 	$('#first-page').hide();
 	$('#results').hide();
@@ -38,10 +41,12 @@ $('#new-search-button').on('click', function(){
 	resetMap();
 })
 
+// getting state dropdown selection 
 states.forEach(element =>
     $('#js-search-state').append(`<option id='${element}'>${element}</option>`)
 )
 
+// formatting parameters for any fetch call
 function formatQueryParams(params) {
   const queryItems = Object.keys(params)
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
@@ -101,8 +106,9 @@ function showMap(){
 	})
 }
 
-function getRestaurantList(cityId, cuisineId) {
-	const newUrl = zomatoUrl + 'search?' + `entity_id=${cityId}&entity_type=city&cuisines=${cuisineId}&start=5&count=15`;
+function getRestaurantList(cityId, categoryGiven) {
+	console.log('hi')
+	const newUrl = zomatoUrl + 'search?' + `entity_id=${cityId}&entity_type=city&cuisines=${categoryGiven}&start=5&count=15`;
 
 	fetch(newUrl, {
 		method: 'get',
@@ -123,14 +129,17 @@ function getRestaurantList(cityId, cuisineId) {
 		});
 }
 
+// when I tried to return category given below and then call the above function
+// this above function ran first and then displayed results from India and Candada
 function getCuisineId(responseJson, cityId) {
-	let categoryGiven = $('#js-search-category').val();
+	console.log('hello from 128')
+	categoryGiven = $('#js-search-category').val();
 	formatEntry(categoryGiven);
 	categoryGiven = newStr;
 	
 	if(categoryGiven == "" || categoryGiven == "all" || categoryGiven == "All") {
 		categoryGiven = "all";
-		getRestaurantList(cityId, categoryGiven)
+		getRestaurantList(cityId, categoryGiven);
 	} else {
 
 		const cuisineChoice = responseJson.cuisines.find(cuisine => cuisine.cuisine.cuisine_name === categoryGiven);
@@ -143,7 +152,10 @@ function getCuisineId(responseJson, cityId) {
 	} 
 }
 
-function getCuisineList(cityId) {
+// takes cityId and returns cuisine options within a city
+// returns array of objects
+function getCuisineList() {
+	console.log(`${cityId}`)
 	const newUrl = zomatoUrl + 'cuisines?' + `city_id=${cityId}`;
 	fetch(newUrl, {
 		method: 'get',
@@ -164,12 +176,13 @@ function getCuisineList(cityId) {
 	});		
 }
 
+//loops through getCities Json to find match - checking each against the state selected
 function checkIdsAgainstState(responseJson, locationGiven){
 	for (let i = 0; i < responseJson.location_suggestions.length; i++){
 		if(responseJson.location_suggestions[i].name == locationGiven) {
 			error = false;
 			cityId = responseJson.location_suggestions[i].id;
-			getCuisineList(cityId);
+			return cityId;
 		} else {
 			if(error == true) {
 				$("#js-error-message").removeClass("hidden");
@@ -179,6 +192,9 @@ function checkIdsAgainstState(responseJson, locationGiven){
 	}
 }
 
+// called on submit, takes user city and state
+// returns Json containing an array of objects with possible matches to city entered
+// json gets passed to function to find correct state and get id#
 function getCities(cityGiven, locationGiven) {
 	const params = {
     q: cityGiven,
@@ -189,7 +205,7 @@ function getCities(cityGiven, locationGiven) {
 		method: 'get',
 		headers: {
 			'user-key': zomatoKey
-		}
+		} 
 	})
 	.then(response => {
       if (response.ok) {
@@ -197,17 +213,45 @@ function getCities(cityGiven, locationGiven) {
       }
       throw new Error(response.statusText);
     })
-    .then(responseJson => checkIdsAgainstState(responseJson, locationGiven))
+	.then(responseJson => checkIdsAgainstState(responseJson, locationGiven))
     .catch(err => {
     	$("#js-error-message").removeClass("hidden");
     	$('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
 }
 
-function onSubmit(){
-
+function onCityBlur(){
+	$('#js-search-city').blur(function() {
+		getEntry();
+		formatEntry(cityGiven);
+		cityGiven = newStr;
+		locationGiven = `${cityGiven}, ${stateGiven}`;
+		getCities(cityGiven, locationGiven);
+		console.log("hello")
+		
+	})
 }
 
+// function onSubmit(){
+	$('form').submit(event => {
+		event.preventDefault();
+		$("#js-error-message").empty();
+		$("#js-error-message").addClass("hidden");
+		$("#results-list").empty();
+		$("#results").addClass("hidden");
+
+		getCuisineList(cityId);
+		getRestaurantList();
+	});
+// }
+
+// retrieves user input values for city and state
+function getEntry(){
+	stateGiven = $('#js-search-state').val();
+	cityGiven = $('#js-search-city').val();
+}
+
+// formats the words submitted by user to correct entry format
 function formatEntry(word){
 	let splitStr = word.toLowerCase().split(' ');
 	for (var i = 0; i < splitStr.length; i++) {
@@ -217,26 +261,12 @@ function formatEntry(word){
 	return newStr;
 }
 
+// called with page load, attaches original event listeners
 function watchForm() {
 	$('#second-page').hide();
 	$('.info').hide();
-		
-  	$('form').submit(event => {
-		event.preventDefault();
-		stateGiven = $('#js-search-state').val();
-		cityGiven = $('#js-search-city').val();
-		formatEntry(cityGiven);
-
-		$("#js-error-message").empty();
-		$("#js-error-message").addClass("hidden");
-		$("#results-list").empty();
-		$("#results").addClass("hidden");
-
-		cityGiven = newStr;
-		locationGiven = `${cityGiven}, ${stateGiven}`;
-		getCities(cityGiven, locationGiven);
-
-	});
+	onCityBlur();
+	
 }
 
 $(watchForm);
