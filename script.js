@@ -17,6 +17,7 @@ let locationGiven = "";
 let cityId = "";
 let map = {};
 let categoryGiven = "";
+let citiesJson = {};
 
 // search for a resturant button functionality
 $('#start-app').on('click', function(){
@@ -53,6 +54,8 @@ function formatQueryParams(params) {
   return queryItems.join('&');
 }
 
+// this resets all of the previous results and errors
+// and then displays each response with a corresponding map pointer
 function displayResults(responseJson) {
 	error = true;
 	$("#js-error-message").empty();
@@ -90,6 +93,7 @@ function displayResults(responseJson) {
 	showMap();
 }
 
+// sets the center of the map to focus on and attaches markers
 function showMap(){
 	mapboxgl.accessToken = 'pk.eyJ1IjoiaG9sbHktMjkzODQ3IiwiYSI6ImNrNTlybDc0YTEydnIzZ3A3bHc5eHZwaWgifQ.7B75rcVKQJASnlD_-yIDkQ';
 	map = new mapboxgl.Map({
@@ -106,6 +110,7 @@ function showMap(){
 	})
 }
 
+// takes the cityid# and user category and returns the corresponding resturant data
 function getRestaurantList(cityId, categoryGiven) {
 	console.log('hi')
 	const newUrl = zomatoUrl + 'search?' + `entity_id=${cityId}&entity_type=city&cuisines=${categoryGiven}&start=5&count=15`;
@@ -200,7 +205,8 @@ function getCities(cityGiven, locationGiven) {
     q: cityGiven,
   };
 	const queryString = formatQueryParams(params)
-  	const url = zomatoUrl + 'cities?' + queryString;
+	  const url = zomatoUrl + 'cities?' + queryString;
+	  console.log(url)
 	fetch(url, {
 		method: 'get',
 		headers: {
@@ -213,13 +219,21 @@ function getCities(cityGiven, locationGiven) {
       }
       throw new Error(response.statusText);
     })
-	.then(responseJson => checkIdsAgainstState(responseJson, locationGiven))
+	.then(responseJson => {
+		console.log(responseJson)
+		citiesJson = responseJson
+		return citiesJson;
+	})
     .catch(err => {
     	$("#js-error-message").removeClass("hidden");
     	$('#js-error-message').text(`Something went wrong: ${err.message}`);
-    });
+	});
+
+	// doesn't match line 223 output for some reason
+	console.log(citiesJson);
 }
 
+//runs when user moves out of city input
 function onCityBlur(){
 	$('#js-search-city').blur(function() {
 		getEntry();
@@ -232,7 +246,8 @@ function onCityBlur(){
 	})
 }
 
-// function onSubmit(){
+//runs on submit button click
+function onSubmit(){
 	$('form').submit(event => {
 		event.preventDefault();
 		$("#js-error-message").empty();
@@ -243,7 +258,7 @@ function onCityBlur(){
 		getCuisineList(cityId);
 		getRestaurantList();
 	});
-// }
+}
 
 // retrieves user input values for city and state
 function getEntry(){
@@ -266,6 +281,7 @@ function watchForm() {
 	$('#second-page').hide();
 	$('.info').hide();
 	onCityBlur();
+	onSubmit();
 	
 }
 
