@@ -14,7 +14,11 @@
 <body>
 
     <nav id="nav-bar">
-        <img src="images/shop.png" alt="green resturant with red door" id="logo">
+        <img 
+            src="images/shop.png" 
+            alt="green resturant with red door" 
+            id="logo"
+        >
         <!-- make sure to credit author for img -->
         <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/flat-icons" title="Flat Icons">Flat Icons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
         <button id="new-search-button">New Search</button>
@@ -25,7 +29,10 @@
             <div class="start-box">
 
                 <h1>Welcome to the MunchMap app!</h1>
-                <p class="info">Munch Map takes a users input and returns options for resturants in the designated location. A user can refine their search results by city and cuisine type, or search for all the resturants near the entered city.</p> <p class="info">Technology Used: HTML, CSS, JavaScript, jQuery</p>
+                <p class="info">Munch Map takes a users input and returns options for resturants in the 
+                    designated location. A user can refine their search results by city and cuisine type, 
+                    or search for all the resturants near the entered city.</p> 
+                <p class="info">Technology Used: HTML, CSS, JavaScript, jQuery</p>
                 <button id="info-button">How we built this?</button>
 
             </div>
@@ -36,18 +43,37 @@
             <h2>Restaurant Search</h2>
             <form action="" id="search-form">
                 <label for="js-search-state">State: &nbsp</label>
-                    <select name="search-state" id="js-search-state" required></select>
+                    <select 
+                        name="search-state" 
+                        id="js-search-state" 
+                        required>
+                    </select>
                     <br>
                 <label for="js-search-city">City: &nbsp</label>
-                <input type="text" placeholder="New York City" name="search-city" id="js-search-city" required>
+                <input 
+                    type="text" 
+                    placeholder="New York City" 
+                    name="search-city" 
+                    id="js-search-city" 
+                    required
+                >
+
+                <div class="selectedCity"></div>
+                <div class="cities"></div>
+      ​
 
                 <br>
                 <label for="js-search-category">Category: &nbsp</label>
-                <input type="text" placeholder="Italian, Mexican, Chinese" name="search-category" id="js-search-category">
+                <input 
+                    type="text" 
+                    placeholder="Italian, Mexican, Chinese" 
+                    name="search-category" 
+                    id="js-search-category"
+                >
                 
                 <br>
                 <br>
-                <button>Get Restaurants!</button>
+                <button id="getRestBtn" disabled="true">Get Restaurants!</button>
             </form>
         </div>
 

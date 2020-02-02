@@ -2,9 +2,15 @@
 
 const zomatoUrl = 'https://developers.zomato.com/api/v2.1/';
 const zomatoKey = 'dfcbf4ec3afff8937560994206294706';
-const mapBoxKey = 'pk.eyJ1IjoiaG9sbHktMjkzODQ3IiwiYSI6ImNrNTlycHgyZjBlc20zb24zZHhvbGpnaGgifQ.4wuSuhP7Za_lKtKMiGx2lg'
-const mapBoxUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'
-const states = [ 'AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 'VA', 'WA', 'WV', 'WI', 'WY' ];
+const mapBoxKey = 'pk.eyJ1IjoiaG9sbHktMjkzODQ3IiwiYSI6ImNrNTlycHgyZjBlc20zb24zZHhvbGpnaGgifQ.4wuSuhP7Za_lKtKMiGx2lg';
+const mapBoxUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
+const states = [ 'AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE',
+				 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN',
+				 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI',
+				 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM',
+				 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 
+				 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 
+				 'VA', 'WA', 'WV', 'WI', 'WY' ];
 
 let error = true;
 let lat = 0;
@@ -44,13 +50,16 @@ $('#new-search-button').on('click', function(){
 
 // getting state dropdown selection 
 states.forEach(element =>
-    $('#js-search-state').append(`<option id='${element}'>${element}</option>`)
+	$('#js-search-state').append(
+		`<option id='${element}'>${element}</option>`
+	)
 )
 
 // formatting parameters for any fetch call
 function formatQueryParams(params) {
-  const queryItems = Object.keys(params)
-    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+  const queryItems = Object.keys(params).map(key => 
+	`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+	)
   return queryItems.join('&');
 }
 
@@ -70,32 +79,50 @@ function displayResults(responseJson) {
 	for( let i = 0; i < responseJson.restaurants.length; i++) {
 		let restauPath = responseJson.restaurants[i].restaurant;
 		$("#results-list").append(
-		`<br>
-		<li>Restaurant: ${restauPath.name} | Rating: ${restauPath.user_rating.rating_text} (${restauPath.user_rating.aggregate_rating})</li>
-		<li><a href="${restauPath.url}" target="_blank">Website</a> | <a href="${restauPath.menu_url}" target="_blank">MENU</a></li>
-		<li>Address: ${restauPath.location.address}</li>
-		<li>Type of Cuisine(s): ${restauPath.cuisines}</li>
-		<li>Hours: ${restauPath.timings}</li>
-		<br>`
+			`<br>
+			<li>
+				Restaurant: ${restauPath.name} | 
+				Rating: ${restauPath.user_rating.rating_text} 
+				(${restauPath.user_rating.aggregate_rating})
+			</li>
+			<li>
+				<a href="${restauPath.url}" 
+					target="_blank">Website</a> | 
+				<a href="${restauPath.menu_url}" 
+					target="_blank">MENU</a>
+			</li>
+			<li>
+				Address: ${restauPath.location.address}
+			</li>
+			<li>
+				Type of Cuisine(s): ${restauPath.cuisines}
+			</li>
+			<li>
+				Hours: ${restauPath.timings}
+			</li>
+			<br>`
 		);
 
-		localMarker.push(
-			{ 
+		localMarker.push({ 
 			type: 'Feature',
 			geometry: { 
 				type: 'Point', 
-				coordinates: [restauPath.location.longitude, restauPath.location.latitude] 
-				},
-			id: restauPath.name
+				coordinates: [
+					restauPath.location.longitude, 
+					restauPath.location.latitude
+				] 
 			},
-		);
+			id: restauPath.name
+		});
 	}
 	showMap();
 }
 
 // sets the center of the map to focus on and attaches markers
 function showMap(){
-	mapboxgl.accessToken = 'pk.eyJ1IjoiaG9sbHktMjkzODQ3IiwiYSI6ImNrNTlybDc0YTEydnIzZ3A3bHc5eHZwaWgifQ.7B75rcVKQJASnlD_-yIDkQ';
+	mapboxgl.accessToken = 
+		// why is different that other mapbox key on line 5?
+		'pk.eyJ1IjoiaG9sbHktMjkzODQ3IiwiYSI6ImNrNTlybDc0YTEydnIzZ3A3bHc5eHZwaWgifQ.7B75rcVKQJASnlD_-yIDkQ';
 	map = new mapboxgl.Map({
 	  container: 'map',
 	  style: 'mapbox://styles/mapbox/streets-v11',
@@ -105,15 +132,18 @@ function showMap(){
   
 	map.addControl(new mapboxgl.NavigationControl());
 	localMarker.forEach(marker => {
-	new mapboxgl.Popup({ closeOnClick: false }).setLngLat(marker.geometry.coordinates).setHTML(`<p>${marker.id}</p>`).addTo(map);
-	
-	})
+		new mapboxgl.Popup({ closeOnClick: false })
+		.setLngLat(marker.geometry.coordinates)
+		.setHTML(`<p>${marker.id}</p>`)
+		.addTo(map);
+	});
 }
 
 // takes the cityid# and user category and returns the corresponding resturant data
 function getRestaurantList(cityId, categoryGiven) {
 	console.log('hi')
-	const newUrl = zomatoUrl + 'search?' + `entity_id=${cityId}&entity_type=city&cuisines=${categoryGiven}&start=5&count=15`;
+	const newUrl = 
+		zomatoUrl + 'search?' + `entity_id=${cityId}&entity_type=city&cuisines=${categoryGiven}&start=5&count=15`;
 
 	fetch(newUrl, {
 		method: 'get',
@@ -123,15 +153,17 @@ function getRestaurantList(cityId, categoryGiven) {
 	})
 	.then(response => {
 		if (response.ok) {
-		return response.json();
-			}
+			return response.json();
+		}
 		throw new Error(response.statusText);
-		})
+	})
 	.then(responseJson => displayResults(responseJson))
 	.catch(err => {
 		$("#js-error-message").removeClass("hidden");
-		$('#js-error-message').text(`Something went wrong: ${err.message}`);
-		});
+		$('#js-error-message').text(
+			`Something went wrong: ${err.message}`
+		);
+	});
 }
 
 // when I tried to return category given below and then call the above function
@@ -141,18 +173,21 @@ function getCuisineId(responseJson, cityId) {
 	categoryGiven = $('#js-search-category').val();
 	formatEntry(categoryGiven);
 	categoryGiven = newStr;
-	
+		// do we need to check type? might do "" || "All" and nothing else?
 	if(categoryGiven == "" || categoryGiven == "all" || categoryGiven == "All") {
 		categoryGiven = "all";
 		getRestaurantList(cityId, categoryGiven);
 	} else {
-
-		const cuisineChoice = responseJson.cuisines.find(cuisine => cuisine.cuisine.cuisine_name === categoryGiven);
+		const cuisineChoice = responseJson.cuisines.find(
+			cuisine => cuisine.cuisine.cuisine_name === categoryGiven
+		);
 		if(cuisineChoice){
 			getRestaurantList(cityId, cuisineChoice.cuisine.cuisine_id);
 		} else {
 			$("#js-error-message").removeClass("hidden");
-			$('#js-error-message').text(`Invalid cuisine! Try again or leave it blank to get a list of cuisines.`);
+			$('#js-error-message').text(
+				`Invalid cuisine! Try again or leave it blank to get a list of cuisines.`
+			);
 		}
 	} 
 }
@@ -170,14 +205,16 @@ function getCuisineList() {
 	})
 	.then(response => {
 		if (response.ok) {
-		return response.json();
+			return response.json();
 		}
 		throw new Error(response.statusText);
 	})
 	.then(responseJson => getCuisineId(responseJson, cityId))
 	.catch(err => {
 		$("#js-error-message").removeClass("hidden");
-		$('#js-error-message').text(`Something went wrong: ${err.message}`);
+		$('#js-error-message').text(
+			`Something went wrong: ${err.message}`
+		);
 	});		
 }
 
@@ -188,13 +225,9 @@ function checkIdsAgainstState(responseJson, locationGiven){
 			error = false;
 			cityId = responseJson.location_suggestions[i].id;
 			return cityId;
-		} else {
-			if(error == true) {
-				$("#js-error-message").removeClass("hidden");
-				$('#js-error-message').text(`That is not a valid location! Make sure the city is located in the state provided.`);
-			} 
-		}
+		} 	
 	}
+	return -1;
 }
 
 // called on submit, takes user city and state
@@ -202,11 +235,11 @@ function checkIdsAgainstState(responseJson, locationGiven){
 // json gets passed to function to find correct state and get id#
 function getCities(cityGiven, locationGiven) {
 	const params = {
-    q: cityGiven,
-  };
+    	q: cityGiven,
+  	};
 	const queryString = formatQueryParams(params)
-	  const url = zomatoUrl + 'cities?' + queryString;
-	  console.log(url)
+	const url = zomatoUrl + 'cities?' + queryString;
+	console.log(url)
 	fetch(url, {
 		method: 'get',
 		headers: {
@@ -220,30 +253,41 @@ function getCities(cityGiven, locationGiven) {
       throw new Error(response.statusText);
     })
 	.then(responseJson => {
-		console.log(responseJson)
-		citiesJson = responseJson
+		console.log(responseJson);
+		citiesJson = responseJson;
+		cityId = checkIdsAgainstState(responseJson, locationGiven);
+		
+		if(cityId === -1) {
+			$("#js-error-message").removeClass("hidden");
+			$('#js-error-message').text(
+				`That is not a valid location! Make sure the city is located in the state provided.`
+			);
+		} else {
+			$('#getRestBtn').prop('disabled', false);
+		} 
 		return citiesJson;
 	})
     .catch(err => {
     	$("#js-error-message").removeClass("hidden");
-    	$('#js-error-message').text(`Something went wrong: ${err.message}`);
+    	$('#js-error-message').text(
+			`Something went wrong: ${err.message}`
+		);
 	});
-
-	// doesn't match line 223 output for some reason
-	console.log(citiesJson);
 }
 
 //runs when user moves out of city input
 function onCityBlur(){
 	$('#js-search-city').blur(function() {
-		getEntry();
-		formatEntry(cityGiven);
-		cityGiven = newStr;
+		// clear error
+		$('#js-error-message').addClass('hidden');
+		let [cityGiven, stateGiven] = getEntry();
+		cityGiven = formatEntry(cityGiven);
+		//cityGiven = newStr;
+		console.log('Corrected City: ', cityGiven );
 		locationGiven = `${cityGiven}, ${stateGiven}`;
 		getCities(cityGiven, locationGiven);
 		console.log("hello")
-		
-	})
+	});
 }
 
 //runs on submit button click
@@ -264,6 +308,7 @@ function onSubmit(){
 function getEntry(){
 	stateGiven = $('#js-search-state').val();
 	cityGiven = $('#js-search-city').val();
+	return [cityGiven, stateGiven];
 }
 
 // formats the words submitted by user to correct entry format
@@ -276,13 +321,77 @@ function formatEntry(word){
 	return newStr;
 }
 
+function searchCities(searchTerm) {
+	const params = {
+		q: searchTerm
+	};
+	const queryString = formatQueryParams(params);
+	const url = zomatoUrl + "cities?" + queryString;
+
+	fetch(url, {
+		method: "get",
+		headers: {
+			"user-key": zomatoKey
+		}
+	})
+	.then(response => {
+		if (response.ok) {
+			return response.json();
+		}
+		throw new Error(response.statusText);
+	})
+	.then(cities => {
+		console.log(cities);
+		$(".cities")
+		.html(
+			cities.location_suggestions
+			.map(
+				city =>
+				`<div class="city" data-id="${city.id}">${city.name}</div>`
+			)
+			.join("")
+		)
+		.show();
+	})
+	.catch(err => {
+		console.log(err);
+	});
+}
+
+function autoComplete() {
+	$("#js-search-city").keyup(e => {
+	  searchCities($("#js-search-city").val());
+	});
+}
+
+function selectCity() {
+	$(".cities").on("click", ".city", e => {
+		cityId = $(e.target).data("id");
+		$(".selectedCity").html($(e.target).html());
+		$(".cities").hide();
+		$("#get_restaurant_btn").prop("disabled", false);
+	});
+}
+
 // called with page load, attaches original event listeners
 function watchForm() {
 	$('#second-page').hide();
 	$('.info').hide();
-	onCityBlur();
+	// onCityBlur();
 	onSubmit();
-	
+	autoComplete();
+	selectCity();
 }
 
 $(watchForm);
+
+// make disabled color button light color
+
+// onkey up   search-city).keyup()
+
+
+// e.target
+
+// .join(""))).show()
+
+// change to either '' or "" throughout
