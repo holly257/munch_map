@@ -3,7 +3,6 @@
     --primary-dark: #e78f0a;
     --primary-light: #ffd95b;
     --dark: #263238;
-
 }
 
 *{
@@ -18,12 +17,10 @@ p{
     color: var(--dark);
 }
 
-
 .info{ 
     line-height: 25px; 
     padding-bottom: 30px;
     max-width: 560px; 
-
 }
 
 body{
@@ -61,6 +58,28 @@ button{
     border: 1px solid var(--primary-light);
     border-radius: 5px;
 }
+
+#getRestBtn:disabled {
+    background: rgb(238, 237, 237);
+}
+#getRestBtn {
+    background-color: var(--primary-dark);
+}
+
+.loader {
+    border: 1.8px solid #ffffff; /* Light grey */
+    border-top: 1.8px solid #000; /* Blue */
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 0.7s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
 
 #new-search-button{
     background: var(--primary);
@@ -100,6 +119,26 @@ input {
     padding: 0 0 0 3px;
     border: 1px solid black;
     border-radius: 5px;
+}
+
+.cities {
+    background-color: rgb(255, 255, 255);
+    padding: 3px;
+    margin-left: 73px;
+    width: 200px;
+    padding: 0 0 0 3px;
+    border: 1px solid black;
+    border-top: white;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+.cities:hover {
+    cursor: pointer;
+}
+
+.city:hover{
+    text-decoration: underline;
 }
 
 select {
@@ -161,7 +200,6 @@ select {
     overflow: scroll;
 }
 
-
 #search-results {
 
     text-align: center;
@@ -207,6 +245,4 @@ select {
     #map {
         margin-top: 100px;
     }
-
-
 }

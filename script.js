@@ -367,6 +367,7 @@ function autoComplete() {
 function selectCity() {
 	$(".cities").on("click", ".city", e => {
 		cityId = $(e.target).data("id");
+		console.log("is this running?")
 		$(".selectedCity").html($(e.target).html());
 		$(".cities").hide();
 		$("#get_restaurant_btn").prop("disabled", false);
