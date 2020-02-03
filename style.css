@@ -75,10 +75,10 @@ button{
     animation: spin 0.7s linear infinite;
   }
   
-  @keyframes spin {
+@keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-  }
+}
   
 
 #new-search-button{
@@ -86,7 +86,6 @@ button{
     color: #000;
     padding: auto;
     margin: 10px;
-
 }
 
 #nav-bar {
@@ -125,10 +124,7 @@ input {
     background-color: rgb(255, 255, 255);
     padding: 3px;
     margin-left: 73px;
-    width: 200px;
     padding: 0 0 0 3px;
-    border: 1px solid black;
-    border-top: white;
     border-radius: 5px;
     font-size: 15px;
 }
