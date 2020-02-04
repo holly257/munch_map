@@ -4,20 +4,12 @@ const zomatoUrl = "https://developers.zomato.com/api/v2.1/";
 const zomatoKey = "dfcbf4ec3afff8937560994206294706";
 const mapBoxKey = "pk.eyJ1IjoiaG9sbHktMjkzODQ3IiwiYSI6ImNrNTlycHgyZjBlc20zb24zZHhvbGpnaGgifQ.4wuSuhP7Za_lKtKMiGx2lg";
 const mapBoxUrl = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
-const states = [ 'AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE',
-				 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN',
-				 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI',
-				 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM',
-				 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 
-				 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 
-				 'VA', 'WA', 'WV', 'WI', 'WY' ];
 
 let error = true;
 let lat = 0;
 let lon = 0;
 let localMarker = [];
 let newStr = "";
-let stateGiven = "";
 let cityGiven = "";
 let locationGiven = "";
 let cityId = "";
@@ -42,23 +34,15 @@ $('#new-search-button').on("click", function(){
 	$("#first-page").hide();
 	$("#results").hide();
 	$("#second-page").show();
-	$("#js-search-state").val("AL");
 	$("#js-search-city").val("");
 	$("#js-search-category").val("");
-	resetMap();
+	$(".selectedCity").empty();
 })
-
-// getting state dropdown selection 
-states.forEach(element =>
-	$('#js-search-state').append(
-		`<option id="${element}">${element}</option>`
-	)
-)
 
 // formatting parameters for any fetch call
 function formatQueryParams(params) {
-  const queryItems = Object.keys(params).map(key => 
-	`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+  	const queryItems = Object.keys(params).map(key => 
+		`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
 	)
   return queryItems.join('&');
 }
@@ -71,11 +55,8 @@ function displayResults(responseJson) {
 	$("#js-error-message").addClass("hidden");
 	$("#results-list").empty();
 	$("#results").removeClass("hidden");
-	$("#results").show();
 	$("#second-page").hide();
-	// is this the right timing?
 	$(".loader").hide();
-
 	localMarker = [];
 
 	for( let i = 0; i < responseJson.restaurants.length; i++) {
@@ -117,6 +98,7 @@ function displayResults(responseJson) {
 			id: restauPath.name
 		});
 	}
+	$("#results").show();
 	showMap();
 }
 
@@ -126,10 +108,10 @@ function showMap(){
 		// why is different that other mapbox key on line 5?
 		"pk.eyJ1IjoiaG9sbHktMjkzODQ3IiwiYSI6ImNrNTlybDc0YTEydnIzZ3A3bHc5eHZwaWgifQ.7B75rcVKQJASnlD_-yIDkQ";
 	map = new mapboxgl.Map({
-	  container: "map",
-	  style: "mapbox://styles/mapbox/streets-v11",
-	  center: localMarker[0].geometry.coordinates,
-	  zoom: 10
+		container: "map",
+		style: "mapbox://styles/mapbox/streets-v11",
+		center: localMarker[0].geometry.coordinates,
+		zoom: 10
 	});
   
 	map.addControl(new mapboxgl.NavigationControl());
@@ -166,6 +148,17 @@ function getRestaurantList(cityId, categoryGiven) {
 			`Something went wrong: ${err.message}`
 		);
 	});
+}
+
+// is this needed ? probably for formatting category 
+// formats the words submitted by user to correct entry format
+function formatEntry(word){
+	let splitStr = word.toLowerCase().split(' ');
+	for (var i = 0; i < splitStr.length; i++) {
+		splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+	}
+	newStr = splitStr.join(' ');
+	return newStr;
 }
 
 // when I tried to return category given below and then call the above function
@@ -220,78 +213,6 @@ function getCuisineList() {
 	});		
 }
 
-//loops through getCities Json to find match - checking each against the state selected
-function checkIdsAgainstState(responseJson, locationGiven){
-	for (let i = 0; i < responseJson.location_suggestions.length; i++){
-		if(responseJson.location_suggestions[i].name == locationGiven) {
-			error = false;
-			cityId = responseJson.location_suggestions[i].id;
-			return cityId;
-		} 	
-	}
-	return -1;
-}
-
-// called on submit, takes user city and state
-// returns Json containing an array of objects with possible matches to city entered
-// json gets passed to function to find correct state and get id#
-function getCities(cityGiven, locationGiven) {
-	const params = {
-    	q: cityGiven,
-  	};
-	const queryString = formatQueryParams(params)
-	const url = zomatoUrl + "cities?" + queryString;
-	console.log(url)
-	fetch(url, {
-		method: "get",
-		headers: {
-			"user-key": zomatoKey
-		} 
-	})
-	.then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(response.statusText);
-    })
-	.then(responseJson => {
-		console.log(responseJson);
-		citiesJson = responseJson;
-		cityId = checkIdsAgainstState(responseJson, locationGiven);
-		
-		if(cityId === -1) {
-			$("#js-error-message").removeClass("hidden");
-			$("#js-error-message").text(
-				`That is not a valid location! Make sure the city is located in the state provided.`
-			);
-		} else {
-			$("#getRestBtn").prop("disabled", false);
-		} 
-		return citiesJson;
-	})
-    .catch(err => {
-    	$("#js-error-message").removeClass("hidden");
-    	$("#js-error-message").text(
-			`Something went wrong: ${err.message}`
-		);
-	});
-}
-
-//runs when user moves out of city input
-function onCityBlur(){
-	$("#js-search-city").blur(function() {
-		// clear error
-		$("#js-error-message").addClass("hidden");
-		let [cityGiven, stateGiven] = getEntry();
-		cityGiven = formatEntry(cityGiven);
-		//cityGiven = newStr;
-		console.log("Corrected City: ", cityGiven );
-		locationGiven = `${cityGiven}, ${stateGiven}`;
-		getCities(cityGiven, locationGiven);
-		console.log("hello")
-	});
-}
-
 //runs on submit button click
 function onSubmit(){
 	$("form").submit(event => {
@@ -301,27 +222,9 @@ function onSubmit(){
 		$("#results-list").empty();
 		$("#results").addClass("hidden");
 		$(".loader").show();
-
 		getCuisineList(cityId);
 		getRestaurantList();
 	});
-}
-
-// retrieves user input values for city and state
-function getEntry(){
-	stateGiven = $("#js-search-state").val();
-	cityGiven = $("#js-search-city").val();
-	return [cityGiven, stateGiven];
-}
-
-// formats the words submitted by user to correct entry format
-function formatEntry(word){
-	let splitStr = word.toLowerCase().split(' ');
-	for (var i = 0; i < splitStr.length; i++) {
-		splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
-	}
-	newStr = splitStr.join(' ');
-	return newStr;
 }
 
 function searchCities(searchTerm) {
@@ -361,13 +264,6 @@ function searchCities(searchTerm) {
 	});
 }
 
-function autoComplete() {
-	$("#js-search-city").keyup(e => {
-	  searchCities($("#js-search-city").val());
-	  console.log('here')
-	});
-}
-
 function selectCity() {
 	$(".cities").on("click", ".city", e => {
 		cityId = $(e.target).data("id");
@@ -378,17 +274,20 @@ function selectCity() {
 	});
 }
 
+function autoComplete() {
+	$("#js-search-city").keyup(function() {
+	  searchCities($("#js-search-city").val());
+	});
+}
+
 // called with page load, attaches original event listeners
 function watchForm() {
 	$("#second-page").hide();
 	$(".info").hide();
 	$(".loader").hide();
-	// onCityBlur();
-	onSubmit();
 	autoComplete();
 	selectCity();
+	onSubmit();
 }
 
 $(watchForm);
-
-// change to either '' or "" throughout
