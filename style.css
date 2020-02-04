@@ -64,6 +64,7 @@ button{
 }
 #getRestBtn {
     background-color: var(--primary-dark);
+    width: 100%;
 }
 
 .loader {
@@ -72,6 +73,8 @@ button{
     border-radius: 50%;
     width: 20px;
     height: 20px;
+    margin: 0 auto;
+    margin-top: 20px;
     animation: spin 0.7s linear infinite;
   }
   

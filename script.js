@@ -364,6 +364,7 @@ function searchCities(searchTerm) {
 function autoComplete() {
 	$("#js-search-city").keyup(e => {
 	  searchCities($("#js-search-city").val());
+	  console.log('here')
 	});
 }
 
