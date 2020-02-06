@@ -5,7 +5,6 @@ const zomatoKey = "dfcbf4ec3afff8937560994206294706";
 const mapBoxKey = "pk.eyJ1IjoiaG9sbHktMjkzODQ3IiwiYSI6ImNrNTlycHgyZjBlc20zb24zZHhvbGpnaGgifQ.4wuSuhP7Za_lKtKMiGx2lg";
 const mapBoxUrl = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
 
-
 let error = true;
 let lat = 0;
 let lon = 0;
@@ -107,7 +106,6 @@ function displayResults(responseJson) {
 // sets the center of the map to focus on and attaches markers
 function showMap(){
 	mapboxgl.accessToken = 
-		// why is different that other mapbox key on line 5?
 		"pk.eyJ1IjoiaG9sbHktMjkzODQ3IiwiYSI6ImNrNTlybDc0YTEydnIzZ3A3bHc5eHZwaWgifQ.7B75rcVKQJASnlD_-yIDkQ";
 	map = new mapboxgl.Map({
 		container: "map",
