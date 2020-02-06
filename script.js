@@ -5,6 +5,7 @@ const zomatoKey = "dfcbf4ec3afff8937560994206294706";
 const mapBoxKey = "pk.eyJ1IjoiaG9sbHktMjkzODQ3IiwiYSI6ImNrNTlycHgyZjBlc20zb24zZHhvbGpnaGgifQ.4wuSuhP7Za_lKtKMiGx2lg";
 const mapBoxUrl = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
 
+
 let error = true;
 let lat = 0;
 let lon = 0;
@@ -16,6 +17,7 @@ let cityId = "";
 let map = {};
 let categoryGiven = "";
 let citiesJson = {};
+let suggestedCities = [];
 
 // search for a resturant button functionality
 $("#start-app").on("click", function(){
@@ -150,7 +152,6 @@ function getRestaurantList(cityId, categoryGiven) {
 	});
 }
 
-// is this needed ? probably for formatting category 
 // formats the words submitted by user to correct entry format
 function formatEntry(word){
 	let splitStr = word.toLowerCase().split(' ');
@@ -161,15 +162,13 @@ function formatEntry(word){
 	return newStr;
 }
 
-// when I tried to return category given below and then call the above function
-// this above function ran first and then displayed results from India and Candada
+// takes cuisine list and 
 function getCuisineId(responseJson, cityId) {
 	console.log("hello from 128")
 	categoryGiven = $("#js-search-category").val();
 	formatEntry(categoryGiven);
 	categoryGiven = newStr;
-		// do we need to check type? might do "" || "All" and nothing else?
-	if(categoryGiven == "" || categoryGiven == "all" || categoryGiven == "All") {
+	if(categoryGiven == "" || categoryGiven == "All") {
 		categoryGiven = "all";
 		getRestaurantList(cityId, categoryGiven);
 	} else {
@@ -188,7 +187,6 @@ function getCuisineId(responseJson, cityId) {
 }
 
 // takes cityId and returns cuisine options within a city
-// returns array of objects
 function getCuisineList() {
 	console.log(`${cityId}`)
 	const newUrl = zomatoUrl + "cuisines?" + `city_id=${cityId}`;
@@ -227,6 +225,7 @@ function onSubmit(){
 	});
 }
 
+// runs against user input as they type, returns possible city matches and their id
 function searchCities(searchTerm) {
 	const params = {
 		q: searchTerm
@@ -247,37 +246,38 @@ function searchCities(searchTerm) {
 		throw new Error(response.statusText);
 	})
 	.then(cities => {
-		console.log(cities);
-		$(".cities")
-		.html(
+		suggestedCities = cities.location_suggestions;
+		$("#cities").html(
+			
 			cities.location_suggestions
 			.map(
 				city =>
-				`<div class="city" data-id="${city.id}">${city.name}</div>`
+				`<option class="city" data-id="${city.id}" value="${city.name}"/>`
 			)
 			.join("")
-		)
-		.show();
+		);
 	})
 	.catch(err => {
 		console.log(err);
 	});
 }
 
+// watches for when a user selects a city from the autoComplete suggestions
 function selectCity() {
-	$(".cities").on("click", ".city", e => {
-		cityId = $(e.target).data("id");
-		console.log("is this running?")
-		$(".selectedCity").html($(e.target).html());
-		$(".cities").hide();
+	$("#js-search-city").on("input", e => {
+		let cityName = e.target.value;
+		let city = suggestedCities.find(city => city.name === cityName);		
+		cityId = city ? city.id : null;
 		$("#getRestBtn").prop("disabled", false);
-	});
+	})
 }
 
+// watches user typing and runs matches against values 
 function autoComplete() {
-	$("#js-search-city").keyup(function() {
-	  searchCities($("#js-search-city").val());
-	});
+	$("#js-search-city").keyup($.debounce(400, function() {
+		  searchCities($("#js-search-city").val());
+		})
+	);
 }
 
 // called with page load, attaches original event listeners

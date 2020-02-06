@@ -56,10 +56,12 @@
                     name="search-city" 
                     id="js-search-city" 
                     required
+                    list="cities"
                 >
 
-                <div class="selectedCity"></div>
-                <div class="cities"></div>
+                <!-- <div class="selectedCity"></div> -->
+                <!-- make sure this isn't being used anywhere else ^ -->
+                <datalist id="cities"></datalist>
       ​
 
                 <br>
@@ -97,6 +99,7 @@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="debounce.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
