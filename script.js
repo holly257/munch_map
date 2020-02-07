@@ -111,7 +111,7 @@ function showMap(){
 		container: "map",
 		style: "mapbox://styles/mapbox/streets-v11",
 		center: localMarker[0].geometry.coordinates,
-		zoom: 10
+		zoom: 9
 	});
   
 	map.addControl(new mapboxgl.NavigationControl());
@@ -160,7 +160,7 @@ function formatEntry(word){
 	return newStr;
 }
 
-// takes cuisine list and 
+// takes cuisine id and filters by cuisine type
 function getCuisineId(responseJson, cityId) {
 	console.log("hello from 128")
 	categoryGiven = $("#js-search-category").val();
@@ -219,7 +219,6 @@ function onSubmit(){
 		$("#results").addClass("hidden");
 		$(".loader").show();
 		getCuisineList(cityId);
-		getRestaurantList();
 	});
 }
 
@@ -272,10 +271,9 @@ function selectCity() {
 
 // watches user typing and runs matches against values 
 function autoComplete() {
-	$("#js-search-city").keyup($.debounce(400, function() {
+	$("#js-search-city").keyup(function() {
 		  searchCities($("#js-search-city").val());
-		})
-	);
+	});
 }
 
 // called with page load, attaches original event listeners
