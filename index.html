@@ -1,104 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MunchMap</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- mapbox cdn -->
-    <script src="https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js"></script>
-    <link href="https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css" rel='stylesheet' />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>MunchMap</title>
+        <link rel="stylesheet" href="style.css" />
+        <!-- mapbox cdn -->
+        <script src="https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js"></script>
+        <link href="https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css" rel="stylesheet" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
+    </head>
+    <body>
+        <nav id="nav-bar">
+            <img src="" alt="Logo" id="logo" />
 
-</head>
-<body>
+            <button id="new-search-button">New Search</button>
+        </nav>
 
-    <nav id="nav-bar">
-        <img 
-            src="images/shop.png" 
-            alt="green resturant with red door" 
-            id="logo"
-        >
-        <!-- make sure to credit author for img -->
-        <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/flat-icons" title="Flat Icons">Flat Icons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
-        <button id="new-search-button">New Search</button>
-    </nav>
-    
-    <div id="start-page" >
-        <div class="container" id="first-page" >
-            <div class="start-box">
+        <div id="start-page">
+            <div class="container" id="first-page">
+                <div class="start-box">
+                    <h1>MunchMap</h1>
 
-                <h1>Welcome to the MunchMap app!</h1>
-                <p class="info">Munch Map takes a users input and returns options for resturants in the 
+                    <!-- <p class="info">Munch Map takes a users input and returns options for resturants in the 
                     designated location. A user can refine their search results by city and cuisine type, 
                     or search for all the resturants near the entered city.</p> 
                 <p class="info">Technology Used: HTML, CSS, JavaScript, jQuery</p>
                 <button id="info-button">How we built this?</button>
-
+                <button id="start-app">Search for a restaurant!</button> -->
+                </div>
+                <div class="hero">
+                    <span>
+                        <image
+                            class="hero-images"
+                            src="images/abstract-location-access.png"
+                            alt="map location"
+                        ></image>
+                        <p class="hero-text">Pick a City</p>
+                    </span>
+                    <span>
+                        <p class="hero-text">Pick a Food</p>
+                        <image
+                            class="hero-images"
+                            src="images/ratings-review.png"
+                            alt="picking a food"
+                        ></image>
+                    </span>
+                </div>
             </div>
-            <button id="start-app">Search for a restaurant!</button>
-        </div>
 
-         <div class="container" id="second-page">
-            <h2>Restaurant Search</h2>
-            <form action="" id="search-form">
-                <!-- <label for="js-search-state">State: &nbsp</label>
+            <!-- <div class="container" id="second-page"> -->
+            <div class="container">
+                <form action="" id="search-form">
+                    <!-- <label for="js-search-state">State: &nbsp</label>
                     <select 
                         name="search-state" 
                         id="js-search-state" 
                         required>
                     </select> -->
-                    <br>
-                <label for="js-search-city">City: &nbsp</label>
-                <input 
-                    type="text" 
-                    placeholder="New York City" 
-                    name="search-city" 
-                    id="js-search-city" 
-                    required
-                    list="cities"
-                >
+                    <br />
+                    <label for="js-search-city">City: &nbsp</label>
+                    <input
+                        type="text"
+                        placeholder="New York City"
+                        name="search-city"
+                        id="js-search-city"
+                        required
+                        list="cities"
+                    />
 
-                <!-- <div class="selectedCity"></div> -->
-                <!-- make sure this isn't being used anywhere else ^ -->
-                <datalist id="cities"></datalist>
-      ​
+                    <!-- <div class="selectedCity"></div> -->
+                    <!-- make sure this isn't being used anywhere else ^ -->
+                    <datalist id="cities"></datalist>
+                    ​
 
-                <br>
-                <label for="js-search-category">Category: &nbsp</label>
-                <input 
-                    type="text" 
-                    placeholder="Italian, Mexican, Chinese" 
-                    name="search-category" 
-                    id="js-search-category"
-                >
-                
-                <br>
-                <br>
-                <button id="getRestBtn" disabled="true">Get Restaurants!</button>
-                <div class="loader"></div>
+                    <br />
+                    <label for="js-search-category">Category: &nbsp</label>
+                    <input
+                        type="text"
+                        placeholder="Italian, Mexican, Chinese"
+                        name="search-category"
+                        id="js-search-category"
+                    />
 
-            </form>
+                    <br />
+                    <br />
+                    <button id="getRestBtn" disabled="true">Get Restaurants!</button>
+                    <div class="loader"></div>
+                </form>
+            </div>
+
+            <p id="js-error-message" class="error-message"></p>
+            <section id="results" class="hidden">
+                <div id="map-container" class="map-container">
+                    <div id="map"></div>
+                </div>
+                <div id="resutls-container">
+                    <h2 id="search-results">Search results</h2>
+                    <br />
+                    <ul id="results-list"></ul>
+                </div>
+            </section>
         </div>
 
-        <p id="js-error-message" class="error-message"></p>
-        <section id="results" class="hidden">
-            <div id="map-container" class="map-container">
-                <div id="map"></div>
-            </div>
-            <div id="resutls-container">
-                <h2 id="search-results">Search results</h2>
-                <br>
-                <ul id="results-list">
-                </ul>
-            </div>
-            
-        </section>
-        
-            
-    </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="script.js"></script>
-</body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="script.js"></script>
+    </body>
 </html>
