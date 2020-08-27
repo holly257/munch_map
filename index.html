@@ -4,6 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <link rel="icon" href="/images/favicon.ico" />
         <title>MunchMap</title>
         <link rel="stylesheet" href="style.css" />
         <!-- mapbox cdn -->
@@ -16,16 +17,18 @@
     </head>
     <body>
         <nav id="nav-bar">
-            <img src="" alt="Logo" id="logo" />
-
-            <button id="new-search-button">New Search</button>
+            <div id='inside-nav'>
+                <img src="/images/favicon.ico" alt="restaurant icon" id="logo" />
+                <button id="new-search-button">New Search</button>
+            </div>
         </nav>
 
         <div id="start-page">
             <div class="container" id="first-page">
                 <div class="start-box">
                     <h1>MunchMap</h1>
-
+                    <h6>Find a restaurant near you!</h6>
+                    <br/>
                     <!-- <p class="info">Munch Map takes a users input and returns options for resturants in the 
                     designated location. A user can refine their search results by city and cuisine type, 
                     or search for all the resturants near the entered city.</p> 
